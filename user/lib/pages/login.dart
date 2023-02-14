@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
           child: Column(
         children: [
-          Container(
+          SizedBox(
             width: 100,
             height: 100,
             child: Image.asset('images/MyIcon.jpg'),
@@ -38,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   TextFormField(
+                    obscureText: true,
                     decoration: const InputDecoration(labelText: 'Password'),
                     validator: (value) {
                       if (value!.isEmpty || value.length < 8) {
