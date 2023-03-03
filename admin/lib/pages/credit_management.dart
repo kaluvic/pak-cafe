@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -26,13 +27,16 @@ class _CreditManagementState extends State<CreditManagement> {
             const Text('Email : '),
             const Text('จำนวนเงินที่ต้องการเติม'),
             TextField(
-              controller: _controller,
-              onChanged: (value) {
-                if (value.isEmpty) {
-                  credit = 0;
-                }
-              },
-            ),
+                controller: _controller,
+                onChanged: (value) {
+                  if (value.isEmpty) {
+                    credit = 0;
+                  }
+                },
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ]),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
