@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pak_admin/pages/menu_add.dart';
+import 'package:pak_admin/widgets/add_cat.dart';
+import 'package:pak_admin/widgets/drink_list.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -9,10 +10,20 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  void goMenuAddPage() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MenuAddPage()));
-  }
+  List<List<Widget>> tabviews = [
+    [
+      const Tab(
+        text: 'กาแฟ',
+      ),
+      const Tab(
+        text: 'ชา',
+      ),
+      const Tab(
+        text: '+',
+      )
+    ],
+    [const DrinkList(), const DrinkList(), const CategoryAdd()]
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,111 +37,23 @@ class _MenuPageState extends State<MenuPage> {
       body: Column(
         children: [
           DefaultTabController(
-              length: 5,
+              length: tabviews[0].length,
               initialIndex: 0,
               child: Column(
                 children: [
                   Container(
-                    child: const TabBar(
+                    child: TabBar(
                         labelColor: Colors.blue,
                         unselectedLabelColor: Colors.black,
-                        tabs: [
-                          Tab(
-                            text: 'กาแฟ',
-                          ),
-                          Tab(
-                            text: 'ชา',
-                          ),
-                          Tab(
-                            text: 'นม',
-                          ),
-                          Tab(
-                            text: 'ขนม',
-                          ),
-                          Tab(
-                            text: "+",
-                          )
-                        ]),
+                        tabs: tabviews.first),
                   ),
                   //* BODY
                   SizedBox(
                     height: heightScreen * 0.3,
-                    child: TabBarView(children: [
-                      ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return ListTile(
-                              title: const Text('+'),
-                              onTap: goMenuAddPage,
-                            );
-                          } else {
-                            return ListTile(
-                              title: Text('$index'),
-                            );
-                          }
-                        },
-                      ),
-                      ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return const ListTile(
-                              title: Text('+'),
-                            );
-                          } else {
-                            return ListTile(
-                              title: Text('$index'),
-                            );
-                          }
-                        },
-                      ),
-                      ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return const ListTile(
-                              title: Text('+'),
-                            );
-                          } else {
-                            return ListTile(
-                              title: Text('$index'),
-                            );
-                          }
-                        },
-                      ),
-                      ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return const ListTile(
-                              title: Text('+'),
-                            );
-                          } else {
-                            return ListTile(
-                              title: Text('$index'),
-                            );
-                          }
-                        },
-                      ),
-                      ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return const ListTile(
-                              title: Text('+'),
-                            );
-                          } else {
-                            return ListTile(
-                              title: Text('$index'),
-                            );
-                          }
-                        },
-                      ),
-                    ]),
+                    child: TabBarView(children: tabviews.last),
                   )
                 ],
-              ))
+              )),
         ],
       ),
     );

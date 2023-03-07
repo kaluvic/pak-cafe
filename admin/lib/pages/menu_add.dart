@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pak_admin/widgets/toppings_list.dart';
 
 class MenuAddPage extends StatefulWidget {
-  const MenuAddPage({super.key});
+  MenuAddPage({super.key, this.title});
+  String? title;
 
   @override
   State<MenuAddPage> createState() => _MenuAddPageState();
@@ -15,53 +17,75 @@ class _MenuAddPageState extends State<MenuAddPage> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('เมนู'),
+        title: Text(widget.title ?? 'เมนู'),
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Pic add
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.black,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Pic add
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  width: width,
+                  height: 300,
                 ),
-                width: width,
-                height: 300,
-              ),
-              const IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.add_circle_outline,
-                    color: Colors.white,
-                  ))
-            ],
-          ),
-          // Name
-          CustomTextField('ชื่อ'),
-          // Price
-          CustomTextField('ราคา'),
-          // Status
-          const CheckBoxList(),
-          // Topping
-          // Recommend
-          ListTile(
-            leading: Checkbox(
-              value: _isRecommend,
-              onChanged: (value) {
-                setState(() {
-                  _isRecommend = value!;
-                });
-              },
+                const IconButton(
+                    onPressed: null,
+                    icon: Icon(
+                      Icons.add_circle_outline,
+                      color: Colors.white,
+                    ))
+              ],
             ),
-            title: const Text('เลือกเป็นรายการแนะนำ'),
-          ),
-          // Button
-          ElevatedButton(onPressed: () {}, child: const Text('Confirm'))
-        ],
+            // Name
+            Container(
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Column(
+                children: [
+                  CustomTextField('ชื่อ'),
+                  // Price
+                  CustomTextField('ราคา'),
+                ],
+              ),
+            ),
+            // Status
+            const CheckBoxList(),
+            // Topping
+            const ToppingsList(),
+            // Recommend
+            ListTile(
+              leading: Checkbox(
+                value: _isRecommend,
+                onChanged: (value) {
+                  setState(() {
+                    _isRecommend = value!;
+                  });
+                },
+              ),
+              title: const Text('เลือกเป็นรายการแนะนำ'),
+            ),
+            // Button
+            Container(
+              margin: const EdgeInsets.only(bottom: 10.0),
+              child: Center(
+                child: SizedBox(
+                  width: 300,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Confirm')),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -96,15 +120,21 @@ class _CheckBoxListState extends State<CheckBoxList> {
               });
             },
           ),
-          title: const Text('ร้อน'),
-          trailing: _isSelectedHot
-              ? const SizedBox(
-                  width: 50,
-                  child: TextField(
-                    decoration: InputDecoration(hintText: 'Price'),
-                  ),
-                )
-              : null,
+          title: Row(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(right: 20.0),
+                  child: const Text('ร้อน')),
+              _isSelectedHot
+                  ? const SizedBox(
+                      width: 50,
+                      child: TextField(
+                        decoration: InputDecoration(hintText: 'Price'),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
         ),
         ListTile(
           leading: Checkbox(
@@ -115,15 +145,21 @@ class _CheckBoxListState extends State<CheckBoxList> {
               });
             },
           ),
-          title: const Text('เย็น'),
-          trailing: _isSelectedCold
-              ? const SizedBox(
-                  width: 50,
-                  child: TextField(
-                    decoration: InputDecoration(hintText: 'Price'),
-                  ),
-                )
-              : null,
+          title: Row(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(right: 20.0),
+                  child: const Text('เย็น')),
+              _isSelectedCold
+                  ? const SizedBox(
+                      width: 50,
+                      child: TextField(
+                        decoration: InputDecoration(hintText: 'Price'),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
         ),
         ListTile(
           leading: Checkbox(
@@ -134,15 +170,21 @@ class _CheckBoxListState extends State<CheckBoxList> {
               });
             },
           ),
-          title: const Text('ปั่น'),
-          trailing: _isSelectedFrappe
-              ? const SizedBox(
-                  width: 50,
-                  child: TextField(
-                    decoration: InputDecoration(hintText: 'Price'),
-                  ),
-                )
-              : null,
+          title: Row(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(right: 20.0),
+                  child: const Text('ปั่น')),
+              _isSelectedFrappe
+                  ? const SizedBox(
+                      width: 50,
+                      child: TextField(
+                        decoration: InputDecoration(hintText: 'Price'),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
         ),
       ],
     );
