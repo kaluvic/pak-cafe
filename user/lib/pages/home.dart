@@ -13,18 +13,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   double cash = 1000;
   String username = 'Chanin';
-  int _selectedIndex = 0;
 
   void dropdownCallback(String? selectedValue) {
     if (selectedValue == 'logout') {
       print('Logout');
     }
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   void onMenuTap() {
@@ -173,14 +166,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       )),
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Menu'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.menu_book), label: 'Order'),
-          ]),
     );
   }
 }
