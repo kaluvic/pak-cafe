@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pak_user/pages/navigation.dart';
 import 'package:pak_user/pages/register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -57,6 +58,9 @@ class _LoginPageState extends State<LoginPage> {
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text('Processing')));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const NavaigationPage()));
                             }
                           }),
                           child: const Text('เข้าสู่ระบบ')),
