@@ -15,13 +15,66 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Order Page')),
-      body: Center(
-        child: Column(
-          children: const [
-            OrderCardWidget(),
-            OrderCardWidget(),
-          ],
-        )
+      body: SingleChildScrollView(
+        child: Container(
+            margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Expanded(
+                      child: Divider(
+                        indent: 20.0,
+                        endIndent: 10.0,
+                        thickness: 1,
+                      ),
+                    ),
+                    Text(
+                      "ออเดอร์ที่กำลังดำเนินการ",
+                      style: TextStyle(color: Colors.blueGrey),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        indent: 10.0,
+                        endIndent: 20.0,
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const OrderCardWidget(),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Expanded(
+                      child: Divider(
+                        indent: 20.0,
+                        endIndent: 10.0,
+                        thickness: 1,
+                      ),
+                    ),
+                    Text(
+                      "ออเดอร์ที่ยังไม่ได้รับ",
+                      style: TextStyle(color: Colors.blueGrey),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        indent: 10.0,
+                        endIndent: 20.0,
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const OrderCardWidget(),
+                const OrderCardWidget(),
+              
+              ],
+            )),
       ),
     );
   }
