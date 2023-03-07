@@ -11,15 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double cash = 1000;
-  String username = 'Chanin';
-
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue == 'logout') {
-      print('Logout');
-    }
-  }
-
   void onMenuTap() {
     Navigator.push(
         context,
@@ -37,27 +28,6 @@ class _HomePageState extends State<HomePage> {
     double heightScreen = MediaQuery.of(context).size.height;
     double widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            DropdownButton<String>(
-                value: 'default',
-                items: [
-                  DropdownMenuItem(
-                      value: 'default',
-                      child: Text(
-                        username,
-                      )),
-                  const DropdownMenuItem(
-                      value: 'logout', child: Text('Logout')),
-                ],
-                onChanged: dropdownCallback),
-            Text(NumberFormat.currency(symbol: '฿').format(cash))
-          ],
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onCartTapped,
         child: const Icon(Icons.shopping_cart),
