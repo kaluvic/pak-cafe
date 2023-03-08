@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pak_user/pages/navigation.dart';
 import 'package:pak_user/pages/register.dart';
@@ -13,6 +14,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final emailForm = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  late String email;
+  late String password;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (value!.isEmpty || !emailForm.hasMatch(value)) {
                           return 'Invalid Email';
                         }
+                        email = value;
                         return null;
                       },
                     ),
@@ -47,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (value!.isEmpty || value.length < 8) {
                           return 'Invalid Password';
                         }
+                        password = value;
                         return null;
                       },
                     ),
