@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pak_user/pages/cart.dart';
 import 'package:pak_user/pages/menu_order.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,14 +14,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   void onMenuTap() {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MenuOrderPage(),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MenuOrderPage(),
+      )
+    );
   }
 
   void _onCartTapped() {
-    //TODO: Go to Menu order.
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CartPage(),
+      )
+    );
   }
 
   @override
