@@ -8,44 +8,19 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  List<Container> _myCart(int count) {
-    return List.generate(
-      count,
-      (i) => Container(
-        margin: EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Text('1'),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('MenuName'),
-                Text(
-                  'Type',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  'Topping',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  'Note',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-            const Text('ราคา 35 บาท'),
-            IconButton(
-              onPressed: () {}, 
-              icon: const Icon(Icons.edit)
-            )
-          ],
-        ),
-      )
-    ).toList(); // replace * with your rupee or use Icon instead
-  }
-
+  List<String> listItem = [
+    'a',
+    'b',
+    'b',
+    'b',
+    'b',
+    'b',
+    'b',
+    'b',
+    'b',
+    'b',
+    'b'
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,25 +32,58 @@ class _CartPageState extends State<CartPage> {
         centerTitle: true,
         title: const Text("ตะกร้าสินค้า"),
       ),
-      body: Container(
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Column(children: _myCart(5)),
-            const Text(
-              'ราคารวม 130 บาท',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('สั่ง'),
+      body: ListView.builder(
+        itemCount: listItem.length + 1,
+        itemBuilder: (context, index) {
+          if (index < listItem.length) {
+            return Container(
+              margin: const EdgeInsets.only(left: 50, right: 50,top: 10 ),
+              child: ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [const Text('ชื่อสินค้า'), const Text('x1'), const Text('ราคา')],
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "ประเภท",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    Text(
+                      "ท็อปปิ้ง",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    Text(
+                      "โน๊ต",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+                trailing:
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+              ),
+            );
+          } else {
+            return Container(
+              margin: const EdgeInsets.only(left: 50, right: 50),
+              child: const SizedBox(
+                height: 200, 
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Text('ราคารวม',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22)),
                 )
-              )
-            )
-          ]
+              ),
+            );
+          }
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        width: 300,
+        child: FloatingActionButton.extended(
+          onPressed: () {},
+          label: const Text('สั่ง',style: TextStyle(fontWeight: FontWeight.bold),),
         ),
       ),
     );
