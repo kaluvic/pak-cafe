@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                                   const SnackBar(content: Text('Processing')));
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      const NavaigationPage()));
+                                      const NavigationPage()));
                             }
                           }),
                           child: const Text('เข้าสู่ระบบ')),
