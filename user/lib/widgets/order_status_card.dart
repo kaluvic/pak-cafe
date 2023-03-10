@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
 class OrderStatusCardWidget extends StatefulWidget {
-  const OrderStatusCardWidget({super.key});
-
+  const OrderStatusCardWidget({super.key,required this.orderId,required this.orderStatus, required this.time});
+  final String orderId;
+  final int orderStatus;
+  final String time ;
   @override
   State<OrderStatusCardWidget> createState() => _OrderStatusCardWidgetState();
 }
 
 class _OrderStatusCardWidgetState extends State<OrderStatusCardWidget> {
-
-  String orderId = "123456";
-  String orderStatus = "waiting";
-  String time = "19/9/99";
-  
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +27,8 @@ class _OrderStatusCardWidgetState extends State<OrderStatusCardWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("OrderID : $orderId",style: const TextStyle(fontSize: 20) ,),
-                  Text("สถานะ : $orderStatus"),
+                  Text("OrderID : ${widget.orderId}",style: const TextStyle(fontSize: 20) ,),
+                  Text("สถานะ : ${widget.orderStatus.toString()}"),
                   Container(
                     margin: const EdgeInsets.all(10),
                     child: Row(
@@ -39,7 +36,7 @@ class _OrderStatusCardWidgetState extends State<OrderStatusCardWidget> {
                       children: [
                         
                         Text(
-                          "เวลาที่สั่ง : $time",
+                          "เวลาที่สั่ง : ${widget.time}",
                         ),
                       ],
                     ),
