@@ -60,8 +60,20 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
 
   void subToppingPrice(double price) {
     setState(() {
-      toppingsPrice += price;
+      toppingsPrice -= price;
     });
+  }
+
+  List<ToppingCheckbox> generateToppings() {
+    return List<ToppingCheckbox>.generate(
+      widget.menuInfo.toppings!.length,
+      (index) => ToppingCheckbox(
+        widget.menuInfo.toppings![index].name,
+        price: widget.menuInfo.toppings![index].price,
+        addToppingsPrice: addToppingPrice,
+        subToppingsPrice: subToppingPrice,
+      ),
+    );
   }
 
   @override
@@ -123,23 +135,18 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
                         'เพิ่มท็อปปิง',
                         style: TextStyle(fontSize: 24.0),
                       )),
-                  ToppingCheckbox(
-                    widget.menuInfo.toppings![0].name,
-                    price: widget.menuInfo.toppings![0].price,
-                    addToppingsPrice: (value) {
-                      print(value);
-                      addToppingPrice(widget.menuInfo.toppings![0].price);
-                    },
-                    subToppingsPrice: subToppingPrice,
-                  ),
-                  // ToppingCheckbox(
-                  //   'TOPPING_2',
-                  //   price: 1000,
-                  // ),
-                  // ToppingCheckbox(
-                  //   'TOPPING_3',
-                  //   price: 1000,
-                  // ),
+                  Column(
+                    children: widget.menuInfo.toppings!.isNotEmpty
+                        ? generateToppings()
+                        : [
+                            Container(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: const ListTile(
+                                title: Text('ไม่มีท็อปปิ้ง'),
+                              ),
+                            )
+                          ],
+                  )
                 ],
               ),
               //* Note
@@ -174,7 +181,9 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
               //* Total
               Center(
                   child: Text(
-                      'ราคารวม ${basePrice + statusPrice + toppingsPrice} บาท')),
+                'ราคารวม ${(basePrice * _number) + statusPrice + toppingsPrice} บาท',
+                style: const TextStyle(fontSize: 20),
+              )),
               //* Confirm button
               Container(
                 alignment: Alignment.center,
@@ -256,9 +265,9 @@ class _ToppingCheckboxState extends State<ToppingCheckbox> {
           setState(() {
             _value = value!;
             if (_value) {
-              widget.addToppingsPrice;
+              widget.addToppingsPrice(widget.price);
             } else {
-              widget.subToppingsPrice;
+              widget.subToppingsPrice(widget.price);
             }
           });
         },
@@ -283,16 +292,18 @@ class StatusRadiobox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(name),
-      leading: Radio(
-        value: value,
-        groupValue: groupValue,
-        onChanged: (value) {
-          onButtonChecked(value!);
-        },
-      ),
-      trailing: Text('$price'),
-    );
+    return price != -1
+        ? ListTile(
+            title: Text(name),
+            leading: Radio(
+              value: value,
+              groupValue: groupValue,
+              onChanged: (value) {
+                onButtonChecked(value!);
+              },
+            ),
+            trailing: Text('$price'),
+          )
+        : Container();
   }
 }
