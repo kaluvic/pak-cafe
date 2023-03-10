@@ -22,19 +22,16 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MenuOrderPage(
-            menuInfo: menuInfo,
-          ),
+          builder: (context) => const MenuOrderPage(),
         ));
   }
 
   void _onCartTapped() {
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const CartPage(),
-      )
-    );
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CartPage(),
+        ));
   }
 
   List<Tab> generateTab() {

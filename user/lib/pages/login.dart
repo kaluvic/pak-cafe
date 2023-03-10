@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pak_user/entities/userlist_entity.dart';
 import 'package:pak_user/pages/navigation.dart';
 import 'package:pak_user/pages/register.dart';
+import 'package:pak_user/services/user_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +15,10 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final emailForm = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  late String email;
+  late String password;
+  late UserList? user;
+  final userService = UserService();
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (value!.isEmpty || !emailForm.hasMatch(value)) {
                           return 'Invalid Email';
                         }
+                        email = value;
                         return null;
                       },
                     ),
@@ -47,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (value!.isEmpty || value.length < 8) {
                           return 'Invalid Password';
                         }
+                        password = value;
                         return null;
                       },
                     ),
@@ -54,14 +62,25 @@ class _LoginPageState extends State<LoginPage> {
                       margin: const EdgeInsets.only(
                           top: 40, left: 20, right: 20, bottom: 20),
                       child: ElevatedButton(
-                          onPressed: (() {
-                            if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Processing')));
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const NavigationPage()));
-                            }
+                          onPressed: (() async {
+                            Map<String, UserList> userList =
+                                await userService.fetchUser();
+                            userList.forEach((k, v) {
+                              if (_formKey.currentState!.validate()) {
+                                if (v.email == email &&
+                                    v.password == password) {
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text('Processing')));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NavigationPage()));
+                                  }
+                                }
+                              }
+                            });
                           }),
                           child: const Text('เข้าสู่ระบบ')),
                     )
