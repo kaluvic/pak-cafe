@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:pak_user/pages/cart.dart';
+import 'package:pak_user/entities/menuinfo_entity.dart';
 import 'package:pak_user/pages/menu_order.dart';
+import 'package:pak_user/services/menu_service.dart';
+import 'package:pak_user/pages/cart.dart';
+import '../entities/menulist_entity.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,13 +14,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void onMenuTap() {
+  late MenuList _menuList;
+  late Map<String, MenuInfo> _menuMap;
+  MenuService menuService = MenuService();
+
+  void onMenuTap(MenuInfo menuInfo) {
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const MenuOrderPage(),
-      )
-    );
+        context,
+        MaterialPageRoute(
+          builder: (context) => MenuOrderPage(
+            menuInfo: menuInfo,
+          ),
+        ));
   }
 
   void _onCartTapped() {
@@ -28,6 +35,32 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => const CartPage(),
       )
     );
+  }
+
+  List<Tab> generateTab() {
+    return List<Tab>.generate(_menuList.category.length, (index) {
+      return Tab(
+        child: Text(_menuList.category[index].name),
+      );
+    }).toList();
+  }
+
+  List<Widget> generatePage() {
+    return List<Widget>.generate(_menuList.category.length, (index) {
+      List<String> menuIdList = _menuList.category[index].menuId;
+      return ListView.builder(
+        itemCount: menuIdList.length,
+        itemBuilder: (context, i) {
+          MenuInfo info = _menuMap[menuIdList[i]]!;
+          return ListTile(
+            title: Text(info.name),
+            onTap: () {
+              onMenuTap(info);
+            },
+          );
+        },
+      );
+    }).toList();
   }
 
   @override
@@ -42,106 +75,69 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              //* Recommend menu slider
-              CarouselSlider(
-                options: CarouselOptions(autoPlay: true, height: 400.0),
-                items: [1, 2, 3, 4, 5].map((e) {
-                  return Builder(
-                    builder: (context) {
-                      return Container(
-                        width: widthScreen,
-                        decoration: const BoxDecoration(color: Colors.amber),
-                        child: Text(
-                          '$e',
-                          style: const TextStyle(fontSize: 50),
-                        ),
+            child: FutureBuilder(
+          future: Future.wait(
+              [menuService.fetchMenuList(), menuService.fetchInfo()]),
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+            if (snapshot.hasData) {
+              _menuList = snapshot.data![0];
+              _menuMap = snapshot.data![1];
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  //* Recommend menu slider
+                  CarouselSlider(
+                    options: CarouselOptions(autoPlay: true, height: 400.0),
+                    items: [1, 2, 3, 4, 5].map((e) {
+                      return Builder(
+                        builder: (context) {
+                          return Container(
+                            width: widthScreen,
+                            decoration:
+                                const BoxDecoration(color: Colors.amber),
+                            child: Text(
+                              '$e',
+                              style: const TextStyle(fontSize: 50),
+                            ),
+                          );
+                        },
                       );
-                    },
-                  );
-                }).toList(),
-              ),
-              Container(
-                  margin: const EdgeInsets.only(
-                      top: 10.0, bottom: 10.0, left: 10.0),
-                  child: const Text(
-                    'Menu',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                  )),
-              // * Tab Category
-              DefaultTabController(
-                  length: 4,
-                  initialIndex: 0,
-                  child: Column(
-                    children: [
-                      Container(
-                        child: const TabBar(
-                            labelColor: Colors.blue,
-                            unselectedLabelColor: Colors.black,
-                            tabs: [
-                              Tab(
-                                text: 'กาแฟ',
-                              ),
-                              Tab(
-                                text: 'ชา',
-                              ),
-                              Tab(
-                                text: 'นม',
-                              ),
-                              Tab(
-                                text: 'ขนม',
-                              ),
-                            ]),
-                      ),
-                      //* BODY
-                      SizedBox(
-                        height: heightScreen * 0.3,
-                        child: TabBarView(children: [
-                          ListView.builder(
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text('$index'),
-                                onTap: () {
-                                  onMenuTap();
-                                },
-                              );
-                            },
+                    }).toList(),
+                  ),
+                  Container(
+                      margin: const EdgeInsets.only(
+                          top: 10.0, bottom: 10.0, left: 10.0),
+                      child: const Text(
+                        'Menu',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      )),
+                  // * Tab Category
+                  DefaultTabController(
+                      length: _menuList.category.length,
+                      initialIndex: 0,
+                      child: Column(
+                        children: [
+                          Container(
+                            child: TabBar(
+                                labelColor: Colors.blue,
+                                unselectedLabelColor: Colors.black,
+                                tabs: generateTab()),
                           ),
-                          ListView.builder(
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text('$index'),
-                              );
-                            },
-                          ),
-                          ListView.builder(
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text('$index'),
-                              );
-                            },
-                          ),
-                          ListView.builder(
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text('$index'),
-                              );
-                            },
-                          ),
-                        ]),
-                      )
-                    ],
-                  ))
-            ],
-          ),
-        ),
+                          //* BODY
+                          SizedBox(
+                            height: heightScreen * 0.3,
+                            child: TabBarView(children: generatePage()),
+                          )
+                        ],
+                      ))
+                ],
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+        )),
       )),
     );
   }

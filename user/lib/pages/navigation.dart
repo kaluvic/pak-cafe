@@ -3,14 +3,14 @@ import 'package:pak_user/pages/home.dart';
 import 'package:pak_user/pages/order.dart';
 import 'package:intl/intl.dart';
 
-class NavaigationPage extends StatefulWidget {
-  const NavaigationPage({super.key});
+class NavigationPage extends StatefulWidget {
+  const NavigationPage({super.key});
 
   @override
-  State<NavaigationPage> createState() => _NavaigationPageState();
+  State<NavigationPage> createState() => _NavigationPageState();
 }
 
-class _NavaigationPageState extends State<NavaigationPage> {
+class _NavigationPageState extends State<NavigationPage> {
   double cash = 1000;
   String username = 'Chanin';
   int selectedIndex = 0;
@@ -20,8 +20,6 @@ class _NavaigationPageState extends State<NavaigationPage> {
       print('Logout');
     }
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
