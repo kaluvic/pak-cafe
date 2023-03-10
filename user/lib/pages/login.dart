@@ -1,7 +1,8 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:pak_user/entities/userlist_entity.dart';
 import 'package:pak_user/pages/navigation.dart';
 import 'package:pak_user/pages/register.dart';
+import 'package:pak_user/services/user_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +17,8 @@ class _LoginPageState extends State<LoginPage> {
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   late String email;
   late String password;
-  final dbRef = FirebaseDatabase.instance.ref();
+  late UserList? user;
+  final userService = UserService();
 
   @override
   Widget build(BuildContext context) {
@@ -61,19 +63,24 @@ class _LoginPageState extends State<LoginPage> {
                           top: 40, left: 20, right: 20, bottom: 20),
                       child: ElevatedButton(
                           onPressed: (() async {
-                            var user = await dbRef.child("user").once();
-                            Map<dynamic, dynamic> test =
-                                user.snapshot.value as Map<dynamic, dynamic>;
-                            print(test["32322499-ac47-4268-b88e-9313e7d2e9d5"]
-                                .values
-                                .contains("chanin"));
-                            if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Processing')));
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const NavigationPage()));
-                            }
+                            Map<String, UserList> userList =
+                                await userService.fetchUser();
+                            userList.forEach((k, v) {
+                              if (_formKey.currentState!.validate()) {
+                                if (v.email == email &&
+                                    v.password == password) {
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text('Processing')));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NavigationPage()));
+                                  }
+                                }
+                              }
+                            });
                           }),
                           child: const Text('เข้าสู่ระบบ')),
                     )
