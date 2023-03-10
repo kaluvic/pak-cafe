@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pak_user/entities/menuinfo_entity.dart';
 import 'package:pak_user/pages/menu_order.dart';
 import 'package:pak_user/services/menu_service.dart';
-
+import 'package:pak_user/pages/cart.dart';
 import '../entities/menulist_entity.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +29,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onCartTapped() {
-    //TODO: Go to Menu order.
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CartPage(),
+      )
+    );
   }
 
   List<Tab> generateTab() {
