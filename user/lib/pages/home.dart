@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:pak_user/entities/menuinfo_entity.dart';
+import 'package:intl/intl.dart';
+import 'package:pak_user/pages/cart.dart';
 import 'package:pak_user/pages/menu_order.dart';
 import 'package:pak_user/services/menu_service.dart';
 
@@ -22,14 +23,16 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MenuOrderPage(
-            menuInfo: menuInfo,
-          ),
+          builder: (context) => const MenuOrderPage(),
         ));
   }
 
   void _onCartTapped() {
-    //TODO: Go to Menu order.
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CartPage(),
+        ));
   }
 
   List<Tab> generateTab() {
