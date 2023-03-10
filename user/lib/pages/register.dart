@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:uuid/uuid.dart';
@@ -17,8 +18,8 @@ class _RegisterPageState extends State<RegisterPage> {
   late String name;
   late String email;
   late String password;
-  var uuid = Uuid();
-  final databaseRef = FirebaseDatabase.instance.ref();
+  var uuid = const Uuid();
+  final dbRef = FirebaseDatabase.instance.ref();
 
   @override
   Widget build(BuildContext context) {
@@ -95,13 +96,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  databaseRef.child("user").set({
+                                  dbRef.child("user").update({
                                     uuid.v4(): {
                                       "name": name,
                                       "email": email,
                                       "password": password,
                                       "credit": 0
-                                    },
+                                    }
                                   });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(

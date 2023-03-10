@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pak_user/pages/navigation.dart';
 import 'package:pak_user/pages/register.dart';
@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   late String email;
   late String password;
+  final dbRef = FirebaseDatabase.instance.ref();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,13 @@ class _LoginPageState extends State<LoginPage> {
                       margin: const EdgeInsets.only(
                           top: 40, left: 20, right: 20, bottom: 20),
                       child: ElevatedButton(
-                          onPressed: (() {
+                          onPressed: (() async {
+                            var user = await dbRef.child("user").once();
+                            Map<dynamic, dynamic> test =
+                                user.snapshot.value as Map<dynamic, dynamic>;
+                            print(test["32322499-ac47-4268-b88e-9313e7d2e9d5"]
+                                .values
+                                .contains("chanin"));
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text('Processing')));
