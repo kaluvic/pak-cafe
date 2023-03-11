@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:pak_user/entities/cart_entity.dart';
 import 'package:pak_user/entities/menuinfo_entity.dart';
+import 'package:pak_user/services/cart_service.dart';
 
 typedef StringCallback = void Function(String value);
 typedef FuncCallback = void Function();
-typedef DoubleCallback = void Function(double value);
+typedef ToppingCallback = void Function(double value, String name);
 
 class MenuOrderPage extends StatefulWidget {
-  MenuOrderPage({super.key, required this.menuInfo});
+  MenuOrderPage({super.key, required this.menuInfo, required this.menuid});
   late MenuInfo menuInfo;
+  late String menuid;
 
   @override
   State<MenuOrderPage> createState() => _MenuOrderPageState();
 }
 
 class _MenuOrderPageState extends State<MenuOrderPage> {
+  final TextEditingController _textEditingController = TextEditingController();
   String _statusValue = '1';
+  String note = '';
   int _number = 1;
   double basePrice = 0;
   double statusPrice = 0;
   double toppingsPrice = 0;
+  List<String> toppings = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     basePrice = widget.menuInfo.price;
   }
@@ -35,8 +40,9 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
   }
 
   void decreaseNumber() {
+    CartService cartService = CartService();
     setState(() {
-      if (_number > 1) {
+      if (_number >= 1) {
         _number -= 1;
       }
     });
@@ -49,18 +55,44 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
   }
 
   void onConfirmOrder() {
+    CartService cartService = CartService();
+    Map<String, String> statusMap = {
+      "1": "ร้อน",
+      "2": "เย็น",
+      "3": "ปั่น",
+    };
+    String toppingsText = toppings.join(',');
+    note = _textEditingController.text;
+    String? drinkStatus = statusMap[_statusValue];
+    double total = (basePrice * _number) + statusPrice + toppingsPrice;
+    Item item = Item(
+      itemId: widget.menuid,
+      name: widget.menuInfo.name,
+      count: _number,
+      note: note,
+      status: drinkStatus!,
+      toppings: toppingsText,
+      price: total,
+    );
+    if (_number > 0) {
+      cartService.addToCart(item);
+    } else {
+      cartService.removeFromCart(widget.menuid);
+    }
     Navigator.of(context).pop();
   }
 
-  void addToppingPrice(double price) {
+  void addToppingPrice(double price, String name) {
     setState(() {
       toppingsPrice += price;
+      toppings.add(name);
     });
   }
 
-  void subToppingPrice(double price) {
+  void subToppingPrice(double price, String name) {
     setState(() {
       toppingsPrice -= price;
+      toppings.remove(name);
     });
   }
 
@@ -154,8 +186,8 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       'Note',
                       style: TextStyle(
                           fontSize: 20.0, fontWeight: FontWeight.bold),
@@ -163,7 +195,9 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
                     TextField(
                       maxLines: 6,
                       maxLength: 300,
-                      decoration: InputDecoration(border: OutlineInputBorder()),
+                      controller: _textEditingController,
+                      decoration:
+                          const InputDecoration(border: OutlineInputBorder()),
                     )
                   ],
                 ),
@@ -245,8 +279,8 @@ class ToppingCheckbox extends StatefulWidget {
       required this.subToppingsPrice});
   late String toppingName = 'TOPPING_NAME';
   late double price = 0;
-  final DoubleCallback addToppingsPrice;
-  final DoubleCallback subToppingsPrice;
+  final ToppingCallback addToppingsPrice;
+  final ToppingCallback subToppingsPrice;
 
   @override
   State<ToppingCheckbox> createState() => _ToppingCheckboxState();
@@ -265,9 +299,9 @@ class _ToppingCheckboxState extends State<ToppingCheckbox> {
           setState(() {
             _value = value!;
             if (_value) {
-              widget.addToppingsPrice(widget.price);
+              widget.addToppingsPrice(widget.price, widget.toppingName);
             } else {
-              widget.subToppingsPrice(widget.price);
+              widget.subToppingsPrice(widget.price, widget.toppingName);
             }
           });
         },

@@ -18,11 +18,11 @@ class _HomePageState extends State<HomePage> {
   late Map<String, MenuInfo> _menuMap;
   MenuService menuService = MenuService();
 
-  void onMenuTap(MenuInfo menuInfo) {
+  void onMenuTap(MenuInfo menuInfo, String id) {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const MenuOrderPage(),
+          builder: (context) => MenuOrderPage(menuInfo: menuInfo, menuid: id),
         ));
   }
 
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           return ListTile(
             title: Text(info.name),
             onTap: () {
-              onMenuTap(info);
+              onMenuTap(info, menuIdList[i]);
             },
           );
         },

@@ -37,11 +37,15 @@ class _CartPageState extends State<CartPage> {
         itemBuilder: (context, index) {
           if (index < listItem.length) {
             return Container(
-              margin: const EdgeInsets.only(left: 50, right: 50,top: 10 ),
+              margin: const EdgeInsets.only(left: 50, right: 50, top: 10),
               child: ListTile(
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [const Text('ชื่อสินค้า'), const Text('x1'), const Text('ราคา')],
+                  children: const [
+                    Text('ชื่อสินค้า'),
+                    Text('x1'),
+                    Text('ราคา')
+                  ],
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,12 +72,13 @@ class _CartPageState extends State<CartPage> {
             return Container(
               margin: const EdgeInsets.only(left: 50, right: 50),
               child: const SizedBox(
-                height: 200, 
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Text('ราคารวม',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22)),
-                )
-              ),
+                  height: 200,
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Text('ราคารวม',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 22)),
+                  )),
             );
           }
         },
@@ -83,7 +88,10 @@ class _CartPageState extends State<CartPage> {
         width: 300,
         child: FloatingActionButton.extended(
           onPressed: () {},
-          label: const Text('สั่ง',style: TextStyle(fontWeight: FontWeight.bold),),
+          label: const Text(
+            'สั่ง',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
