@@ -12,18 +12,21 @@ class CartService {
     return json.decode(storage);
   }
 
+  Future<List<Item>> callCartAsList() async {
+    Map<String, dynamic> cart = await fetchCart();
+    List<Item> data = [];
+    cart.forEach((key, value) {
+      print(value);
+      Item item = itemFromJson(value.toString());
+      data.add(item);
+    });
+    return data;
+  }
+
   void _printCart() {
     fetchCart().then((value) {
       print(value);
     });
-  }
-
-  Map<String, dynamic> callCart() {
-    Map<String, dynamic> cart = {};
-    fetchCart().then((value) {
-      cart = value;
-    });
-    return cart;
   }
 
   void addToCart(Item item) async {
