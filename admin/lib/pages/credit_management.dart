@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:pak_admin/entities/userlist_entity.dart';
+import 'package:pak_admin/pages/navigation.dart';
+import 'package:pak_admin/services/user_service.dart';
 
 class CreditManagement extends StatefulWidget {
-  const CreditManagement({super.key});
+  const CreditManagement({super.key, required this.user});
+  final UserList user;
 
   @override
   State<CreditManagement> createState() => _CreditManagementState();
 }
 
 class _CreditManagementState extends State<CreditManagement> {
+  String searchText = '';
   int credit = 0;
-  TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controller = TextEditingController();
+  final userService = UserService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('การจัดการเครดิต')),
+      appBar: AppBar(
+        title: const Text('การจัดการเครดิต'),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Username : '),
-            const Text('Email : '),
+            Text('Username : ${widget.user.name}'),
+            Text('Email : ${widget.user.email}'),
             const Text('จำนวนเงินที่ต้องการเติม'),
             TextField(
                 controller: _controller,
@@ -115,7 +121,12 @@ class _CreditManagementState extends State<CreditManagement> {
             ),
             Center(
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Text('ยืนยัน')))
+                    onPressed: () {
+                      credit += widget.user.credit;
+                      userService.updateUser(widget.user, credit);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('ยืนยัน')))
           ],
         ),
       ),
