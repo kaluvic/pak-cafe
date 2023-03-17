@@ -64,7 +64,7 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
     String toppingsText = toppings.join(',');
     note = _textEditingController.text;
     String? drinkStatus = statusMap[_statusValue];
-    double total = (basePrice * _number) + statusPrice + toppingsPrice;
+    double total = (basePrice + statusPrice + toppingsPrice) * _number;
     Item item = Item(
       itemId: widget.menuid,
       name: widget.menuInfo.name,
@@ -215,7 +215,7 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
               //* Total
               Center(
                   child: Text(
-                'ราคารวม ${(basePrice * _number) + statusPrice + toppingsPrice} บาท',
+                'ราคารวม ${(basePrice + statusPrice + toppingsPrice) * _number} บาท',
                 style: const TextStyle(fontSize: 20),
               )),
               //* Confirm button

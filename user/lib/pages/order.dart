@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pak_user/entities/order_entity.dart';
 import 'package:pak_user/services/order_service.dart';
 import 'package:pak_user/widgets/order_status_card.dart';
@@ -34,34 +33,32 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: SingleChildScrollView(
-          child: Container(
-              margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
-              child: FutureBuilder(
-                future: orderService.fetchOrderList(uid),
-                builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    _orderList = snapshot.data!;
-                    return Column(
-                    children: [
-                      const Text(
-                        "สถานะการสั่งซื้อ",
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      Column(
-                        children: generateCard(),
-                      )
-                      
-                    ],
-                  );
-                  }else{
-                    return CircularProgressIndicator();
-                  }
-                 
+      body: SingleChildScrollView(
+        child: Container(
+            margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+            child: FutureBuilder(
+              future: orderService.fetchOrderList(uid),
+              builder: (context, snapshot) {
+                if(snapshot.hasData){
+                  _orderList = snapshot.data!;
+                  return Column(
+                  children: [
+                    const Text(
+                      "สถานะการสั่งซื้อ",
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    Column(
+                      children: generateCard(),
+                    )
+                    
+                  ],
+                );
+                }else{
+                  return const CircularProgressIndicator();
                 }
-              )),
-        ),
+               
+              }
+            )),
       ),
     );
   }
