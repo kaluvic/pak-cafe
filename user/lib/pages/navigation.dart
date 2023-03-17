@@ -32,10 +32,12 @@ class _NavigationPageState extends State<NavigationPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             user = snapshot.data!;
+            username = user['name'];
+            userId = user['userId'];
+            cash = user['credit'];
+          } else {
+            CircularProgressIndicator;
           }
-          username = user['name'];
-          userId = user['userId'];
-          cash = user['credit'];
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
