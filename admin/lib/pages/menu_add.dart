@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pak_admin/entities/menuinfo_entity.dart';
 import 'package:pak_admin/widgets/toppings_list.dart';
 
 class MenuAddPage extends StatefulWidget {
-  MenuAddPage({super.key, this.title});
-  String? title;
+  MenuAddPage({super.key, this.id, this.menuInfo});
+  String? id;
+  MenuInfo? menuInfo;
 
   @override
   State<MenuAddPage> createState() => _MenuAddPageState();
@@ -11,13 +13,24 @@ class MenuAddPage extends StatefulWidget {
 
 class _MenuAddPageState extends State<MenuAddPage> {
   bool _isRecommend = false;
+  bool isEdit = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.menuInfo != null) {
+      isEdit = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    TextEditingController nameController = TextEditingController();
+    TextEditingController priceController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title ?? 'เมนู'),
+        title: Text(isEdit ? widget.menuInfo!.name : 'เมนู'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -48,16 +61,29 @@ class _MenuAddPageState extends State<MenuAddPage> {
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               child: Column(
                 children: [
-                  CustomTextField('ชื่อ'),
+                  CustomTextField(
+                    'ชื่อ',
+                    value: isEdit ? widget.menuInfo!.name : null,
+                    controller: nameController,
+                  ),
                   // Price
-                  CustomTextField('ราคา'),
+                  CustomTextField(
+                    'ราคา',
+                    value: isEdit ? widget.menuInfo!.price.toString() : null,
+                    controller: priceController,
+                  ),
                 ],
               ),
             ),
             // Status
-            const CheckBoxList(),
+            CheckBoxTile('ร้อน',
+                price: isEdit ? widget.menuInfo!.status.hot : -1),
+            CheckBoxTile('เย็น',
+                price: isEdit ? widget.menuInfo!.status.ice : -1),
+            CheckBoxTile('ปั่น',
+                price: isEdit ? widget.menuInfo!.status.frappe : -1),
             // Topping
-            const ToppingsList(),
+            ToppingsList(toppings: isEdit ? widget.menuInfo!.toppings! : []),
             // Recommend
             ListTile(
               leading: Checkbox(
@@ -91,120 +117,74 @@ class _MenuAddPageState extends State<MenuAddPage> {
   }
 }
 
-class CheckBoxList extends StatefulWidget {
-  const CheckBoxList({
-    Key? key,
-  }) : super(key: key);
+class CheckBoxTile extends StatefulWidget {
+  CheckBoxTile(this.name, {super.key, this.price});
+  double? price = -1;
+  String name;
 
   @override
-  State<CheckBoxList> createState() => _CheckBoxListState();
+  State<CheckBoxTile> createState() => _CheckBoxTileState();
 }
 
-class _CheckBoxListState extends State<CheckBoxList> {
-  bool _isSelectedHot = false;
+class _CheckBoxTileState extends State<CheckBoxTile> {
+  TextEditingController controller = TextEditingController();
+  bool isSelected = false;
 
-  bool _isSelectedCold = false;
-
-  bool _isSelectedFrappe = false;
+  @override
+  void initState() {
+    super.initState();
+    controller.text = widget.price.toString();
+    isSelected = widget.price! >= 0;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          leading: Checkbox(
-            value: _isSelectedHot,
-            onChanged: (value) {
-              setState(() {
-                _isSelectedHot = value!;
-              });
-            },
-          ),
-          title: Row(
-            children: [
-              Container(
-                  margin: const EdgeInsets.only(right: 20.0),
-                  child: const Text('ร้อน')),
-              _isSelectedHot
-                  ? const SizedBox(
-                      width: 50,
-                      child: TextField(
-                        decoration: InputDecoration(hintText: 'Price'),
-                      ),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
-        ),
-        ListTile(
-          leading: Checkbox(
-            value: _isSelectedCold,
-            onChanged: (value) {
-              setState(() {
-                _isSelectedCold = value!;
-              });
-            },
-          ),
-          title: Row(
-            children: [
-              Container(
-                  margin: const EdgeInsets.only(right: 20.0),
-                  child: const Text('เย็น')),
-              _isSelectedCold
-                  ? const SizedBox(
-                      width: 50,
-                      child: TextField(
-                        decoration: InputDecoration(hintText: 'Price'),
-                      ),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
-        ),
-        ListTile(
-          leading: Checkbox(
-            value: _isSelectedFrappe,
-            onChanged: (value) {
-              setState(() {
-                _isSelectedFrappe = value!;
-              });
-            },
-          ),
-          title: Row(
-            children: [
-              Container(
-                  margin: const EdgeInsets.only(right: 20.0),
-                  child: const Text('ปั่น')),
-              _isSelectedFrappe
-                  ? const SizedBox(
-                      width: 50,
-                      child: TextField(
-                        decoration: InputDecoration(hintText: 'Price'),
-                      ),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
-        ),
-      ],
+    return ListTile(
+      leading: Checkbox(
+        value: isSelected,
+        onChanged: (value) {
+          setState(() {
+            isSelected = value!;
+          });
+        },
+      ),
+      title: Row(
+        children: [
+          Container(
+              margin: const EdgeInsets.only(right: 20.0),
+              child: Text(widget.name)),
+          isSelected
+              ? SizedBox(
+                  width: 50,
+                  child: TextField(
+                    controller: controller,
+                    decoration: const InputDecoration(hintText: 'Price'),
+                  ),
+                )
+              : const SizedBox(),
+        ],
+      ),
     );
   }
 }
 
 class CustomTextField extends StatelessWidget {
-  CustomTextField(
-    this.title, {
-    Key? key,
-  }) : super(key: key);
-  late String title = 'NULL';
+  CustomTextField(this.title, {Key? key, this.value, required this.controller})
+      : super(key: key);
+  late String title;
+  String? value;
+  late TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
+    controller.text = value ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title),
-        const TextField(),
+        TextField(
+          controller: controller,
+        ),
       ],
     );
   }
