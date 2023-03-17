@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pak_user/pages/home.dart';
 import 'package:pak_user/pages/order.dart';
 import 'package:intl/intl.dart';
+import 'package:pak_user/services/user_service.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -11,11 +12,13 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  double cash = 1000;
+  final userService = UserService();
+  int cash = 10;
   String username = 'Chanin';
+  String userId = '';
   int selectedIndex = 0;
 
-  void dropdownCallback(String? selectedValue) {
+  Future<void> dropdownCallback(String? selectedValue) async {
     if (selectedValue == 'logout') {
       print('Logout');
     }
@@ -23,43 +26,49 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            DropdownButton<String>(
-                value: 'default',
-                items: [
-                  DropdownMenuItem(
+    return FutureBuilder<Object>(
+        future: null,
+        builder: (context, snapshot) {
+          return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DropdownButton<String>(
                       value: 'default',
-                      child: Text(
-                        username,
-                      )),
-                  const DropdownMenuItem(
-                      value: 'logout', child: Text('Logout')),
+                      items: [
+                        DropdownMenuItem(
+                            value: 'default',
+                            child: Text(
+                              username,
+                            )),
+                        const DropdownMenuItem(
+                            value: 'logout', child: Text('Logout')),
+                      ],
+                      onChanged: dropdownCallback),
+                  Text(NumberFormat.currency(symbol: '฿').format(cash))
                 ],
-                onChanged: dropdownCallback),
-            Text(NumberFormat.currency(symbol: '฿').format(cash))
-          ],
-        ),
-      ),
-      body: IndexedStack(
-        index: selectedIndex,
-        children: const [HomePage(), OrderPage()],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Menu'),
-            BottomNavigationBarItem(icon: Icon(Icons.dining), label: 'Order'),
-          ]),
-    );
+              ),
+            ),
+            body: IndexedStack(
+              index: selectedIndex,
+              children: const [HomePage(), OrderPage()],
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+                currentIndex: selectedIndex,
+                onTap: (index) {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.menu_book), label: 'Menu'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.dining), label: 'Order'),
+                ]),
+          );
+        });
   }
 }
