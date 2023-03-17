@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pak_admin/pages/credit_management.dart';
+import 'package:pak_admin/pages/credit_search_user.dart';
 import 'package:pak_admin/pages/menu.dart';
 import 'package:pak_admin/pages/order_page.dart';
 
@@ -21,7 +22,7 @@ class _NavaigationPageState extends State<NavaigationPage> {
         children: const [
           OrderPage(),
           MenuPage(),
-          CreditManagement(),
+          CreditSearchUserPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
