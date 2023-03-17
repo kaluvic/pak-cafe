@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:pak_user/entities/menuinfo_entity.dart';
 import 'package:pak_user/pages/menu_order.dart';
+import 'package:pak_user/pages/order.dart';
 import 'package:pak_user/services/cart_service.dart';
 import 'package:pak_user/services/menu_service.dart';
 
@@ -15,7 +16,11 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   CartService cartService = CartService();
   MenuService menuService = MenuService();
-  String username = 'ball';
+
+  // MOCK Data
+  String username = 'pudding';
+  String userId = '72cdf7df-eb6c-4cb6-9216-a85a3d330205';
+
   List<Item> listItem = [];
   double totalPrice = 0;
   @override
@@ -110,7 +115,9 @@ class _CartPageState extends State<CartPage> {
         width: 300,
         child: FloatingActionButton.extended(
           onPressed: () {
-            // cartService.setOrderInfo(username);
+            cartService.setOrder(username, userId);
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const OrderPage()));
           },
           label: const Text(
             'สั่ง',

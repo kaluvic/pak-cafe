@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class CartService {
   Map<String, dynamic> cartItem = {};
+  String userId = '72cdf7df-eb6c-4cb6-9216-a85a3d330205';
 
   Future<Map<String, dynamic>> fetchCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -25,7 +28,7 @@ class CartService {
 
   void _printCart() {
     fetchCart().then((value) {
-      print(value);
+      // print(value);
     });
   }
 
@@ -56,5 +59,54 @@ class CartService {
   void removeCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('cart');
+  }
+
+  void setOrder(String username, String userId) async {
+    var uuid = const Uuid();
+    String cartListId = uuid.v4();
+    DatabaseReference orderInfoRef =
+        FirebaseDatabase.instance.ref("orderInfo/$cartListId");
+    await orderInfoRef.set({'username': username});
+
+    DateTime _now = DateTime.now();
+    int number = 0;
+    DatabaseReference orderNumRef =
+        FirebaseDatabase.instance.ref("order/$userId/orderNumber");
+    await orderNumRef.once().then((value) {
+      number = value.snapshot.value as int;
+    });
+    await orderNumRef.update({'orderNumber': number + 1});
+    DatabaseReference orderListRef =
+        FirebaseDatabase.instance.ref("order/$userId/orderList/$number");
+    await orderListRef
+        .set({'orderId': cartListId, 'status': 0, "time": _now.toString()});
+
+    setOrderInfo(cartListId);
+  }
+
+  void setOrderInfo(String cartListId) async {
+    var uuid = const Uuid();
+    cartItem = await fetchCart();
+    for (dynamic value in cartItem.values) {
+      Item item = itemFromJson(value);
+      String cartItemId = uuid.v4();
+      DatabaseReference itemRef = FirebaseDatabase.instance
+          .ref("orderInfo/$cartListId/cartList/$cartItemId");
+      await itemRef.set({
+        'count': item.count,
+        'menuName': item.name,
+        'note': item.note,
+        'status': item.status,
+        'toppings': item.toppings
+      });
+    }
+  }
+
+  void fetchOrderInfo() async {
+    final ref = FirebaseDatabase.instance.ref();
+    await ref.child('orderInfo').once().then((event) {
+      String json = jsonEncode(event.snapshot.value);
+      print(json);
+    });
   }
 }
