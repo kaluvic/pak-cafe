@@ -17,6 +17,7 @@ class _NavigationPageState extends State<NavigationPage> {
   String username = 'Chanin';
   String userId = '';
   int selectedIndex = 0;
+  Map<String, dynamic> user = {};
 
   Future<void> dropdownCallback(String? selectedValue) async {
     if (selectedValue == 'logout') {
@@ -26,9 +27,15 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Object>(
-        future: null,
+    return FutureBuilder(
+        future: userService.getUserInfo(),
         builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data!;
+          }
+          username = user['name'];
+          userId = user['userId'];
+          cash = user['credit'];
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
