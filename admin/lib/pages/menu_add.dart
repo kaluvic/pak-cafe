@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pak_admin/entities/menuinfo_entity.dart';
+import 'package:pak_admin/pages/navigation.dart';
+import 'package:pak_admin/services/menu_service.dart';
 import 'package:pak_admin/widgets/toppings_list.dart';
 
+import '../widgets/checkbox_tile.dart';
+import '../widgets/custom_textfield.dart';
+
 class MenuAddPage extends StatefulWidget {
-  MenuAddPage({super.key, this.id, this.menuInfo});
+  MenuAddPage(
+      {super.key,
+      this.id,
+      this.menuInfo,
+      required this.category,
+      required this.catIndex});
   String? id;
   MenuInfo? menuInfo;
+  String category;
+  int catIndex;
 
   @override
   State<MenuAddPage> createState() => _MenuAddPageState();
@@ -14,12 +26,20 @@ class MenuAddPage extends StatefulWidget {
 class _MenuAddPageState extends State<MenuAddPage> {
   bool _isRecommend = false;
   bool isEdit = false;
+  double hot = -1;
+  double ice = -1;
+  double frappe = -1;
+  List<Topping> toppings = [];
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.menuInfo != null) {
       isEdit = true;
+      hot = widget.menuInfo!.status.hot;
+      ice = widget.menuInfo!.status.ice;
+      frappe = widget.menuInfo!.status.frappe;
+      toppings = widget.menuInfo!.toppings!;
     }
   }
 
@@ -28,6 +48,7 @@ class _MenuAddPageState extends State<MenuAddPage> {
     double width = MediaQuery.of(context).size.width;
     TextEditingController nameController = TextEditingController();
     TextEditingController priceController = TextEditingController();
+    MenuService menuService = MenuService();
     return Scaffold(
       appBar: AppBar(
         title: Text(isEdit ? widget.menuInfo!.name : 'เมนู'),
@@ -37,7 +58,6 @@ class _MenuAddPageState extends State<MenuAddPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Pic add
             Stack(
               alignment: Alignment.center,
               children: [
@@ -56,17 +76,17 @@ class _MenuAddPageState extends State<MenuAddPage> {
                     ))
               ],
             ),
-            // Name
             Container(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               child: Column(
                 children: [
+                  // Name Textfield
                   CustomTextField(
                     'ชื่อ',
                     value: isEdit ? widget.menuInfo!.name : null,
                     controller: nameController,
                   ),
-                  // Price
+                  // Price Textfield
                   CustomTextField(
                     'ราคา',
                     value: isEdit ? widget.menuInfo!.price.toString() : null,
@@ -76,14 +96,25 @@ class _MenuAddPageState extends State<MenuAddPage> {
               ),
             ),
             // Status
-            CheckBoxTile('ร้อน',
-                price: isEdit ? widget.menuInfo!.status.hot : -1),
-            CheckBoxTile('เย็น',
-                price: isEdit ? widget.menuInfo!.status.ice : -1),
-            CheckBoxTile('ปั่น',
-                price: isEdit ? widget.menuInfo!.status.frappe : -1),
-            // Topping
-            ToppingsList(toppings: isEdit ? widget.menuInfo!.toppings! : []),
+            CheckBoxTile('ร้อน', onChanged: (price) {
+              hot = price;
+            }, price: hot),
+            CheckBoxTile('เย็น', onChanged: (price) {
+              ice = price;
+            }, price: ice),
+            CheckBoxTile('ปั่น', onChanged: (price) {
+              frappe = price;
+            }, price: frappe),
+            //* Topping
+            Container(
+                margin: const EdgeInsets.only(left: 10.0),
+                child: const Text('ท็อปปิง')),
+            ToppingLists(
+              toppings: toppings,
+              onAccept: (value) {
+                toppings = value;
+              },
+            ),
             // Recommend
             ListTile(
               leading: Checkbox(
@@ -104,88 +135,31 @@ class _MenuAddPageState extends State<MenuAddPage> {
                   width: 300,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        //TODO: Send menulist
+                        Status status =
+                            Status(frappe: frappe, hot: hot, ice: ice);
+                        menuService.updateMenu(
+                          id: widget.id ?? '',
+                          catIndex: widget.catIndex,
+                          category: widget.category,
+                          isEdit: isEdit,
+                          isRecommend: _isRecommend,
+                          name: nameController.text,
+                          price: priceController.text,
+                          status: status,
+                          toppings: toppings,
+                        );
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const NavaigationPage(),
+                        ));
                       },
-                      child: const Text('Confirm')),
+                      child: const Text('ยืนยัน')),
                 ),
               ),
             )
           ],
         ),
       ),
-    );
-  }
-}
-
-class CheckBoxTile extends StatefulWidget {
-  CheckBoxTile(this.name, {super.key, this.price});
-  double? price = -1;
-  String name;
-
-  @override
-  State<CheckBoxTile> createState() => _CheckBoxTileState();
-}
-
-class _CheckBoxTileState extends State<CheckBoxTile> {
-  TextEditingController controller = TextEditingController();
-  bool isSelected = false;
-
-  @override
-  void initState() {
-    super.initState();
-    controller.text = widget.price.toString();
-    isSelected = widget.price! >= 0;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Checkbox(
-        value: isSelected,
-        onChanged: (value) {
-          setState(() {
-            isSelected = value!;
-          });
-        },
-      ),
-      title: Row(
-        children: [
-          Container(
-              margin: const EdgeInsets.only(right: 20.0),
-              child: Text(widget.name)),
-          isSelected
-              ? SizedBox(
-                  width: 50,
-                  child: TextField(
-                    controller: controller,
-                    decoration: const InputDecoration(hintText: 'Price'),
-                  ),
-                )
-              : const SizedBox(),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  CustomTextField(this.title, {Key? key, this.value, required this.controller})
-      : super(key: key);
-  late String title;
-  String? value;
-  late TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    controller.text = value ?? '';
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title),
-        TextField(
-          controller: controller,
-        ),
-      ],
     );
   }
 }
