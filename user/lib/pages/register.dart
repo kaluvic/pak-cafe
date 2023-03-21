@@ -101,7 +101,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       "name": name,
                                       "email": email,
                                       "password": password,
-                                      "credit": 0
+                                      "credit": 0,
+                                      "userId": uuid.v4()
                                     }
                                   });
                                   ScaffoldMessenger.of(context).showSnackBar(
