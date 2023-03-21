@@ -26,4 +26,9 @@ class UserService {
     user.addAll({'name': userName, 'userId': userId, 'credit': credit});
     return user;
   }
+
+  Future<SharedPreferences> userCache() async {
+    final userCache = await SharedPreferences.getInstance();
+    return userCache;
+  }
 }
