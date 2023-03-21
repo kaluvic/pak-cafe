@@ -24,4 +24,12 @@ class MenuService {
       return menuInfo;
     });
   }
+
+  Future<MenuInfo> fetchInfoFromId(String menuId) async {
+    return await ref.child('menuInfo/$menuId').once().then((event) {
+      String json = jsonEncode(event.snapshot.value);
+      MenuInfo menuInfo = MenuInfo.fromJson(jsonDecode(json));
+      return menuInfo;
+    });
+  }
 }
