@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pak_user/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pak_user/pages/login.dart';
+import 'package:pak_user/pages/navigation.dart';
 
 void main() async {
   await Firebase.initializeApp(
@@ -20,7 +21,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const NavigationPage(),
+      //! Change when finish on branch!!!
+      // home: const LoginPage(),
     );
   }
 }

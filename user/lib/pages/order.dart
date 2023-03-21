@@ -1,7 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:pak_user/entities/order_entity.dart';
-import 'package:pak_user/services/order_service.dart';
 import 'package:pak_user/widgets/order_status_card.dart';
 
 class OrderPage extends StatefulWidget {
@@ -15,8 +14,6 @@ class _OrderPageState extends State<OrderPage> {
   double cash = 1000;
   String username = 'Chanin';
   String uid = '72cdf7df-eb6c-4cb6-9216-a85a3d330205';
-  OrderService orderService = OrderService();
-  late OrderList _orderList; 
 
   void dropdownCallback(String? selectedValue) {
     if (selectedValue == 'logout') {
@@ -24,45 +21,19 @@ class _OrderPageState extends State<OrderPage> {
     }
   }
 
-  List<OrderStatusCardWidget> generateCard(){
-    List<OrderListElement> order = _orderList.orderList;
-    return List<OrderStatusCardWidget>.generate(order.length, (index) {
-      return OrderStatusCardWidget(orderId: order[index].orderId,orderStatus: order[index].status,time: order[index].time,);
-    }).toList();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: SingleChildScrollView(
-          child: Container(
-              margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
-              child: FutureBuilder(
-                future: orderService.fetchOrderList(uid),
-                builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    _orderList = snapshot.data!;
-                    return Column(
-                    children: [
-                      const Text(
-                        "สถานะการสั่งซื้อ",
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      Column(
-                        children: generateCard(),
-                      )
-                      
-                    ],
-                  );
-                  }else{
-                    return CircularProgressIndicator();
-                  }
-                 
-                }
-              )),
-        ),
-      ),
+      body: FirebaseAnimatedList(
+          query: FirebaseDatabase.instance.ref('order/$uid/orderList'),
+          itemBuilder: (context, snapshot, animation, index) {
+            return OrderStatusCardWidget(
+              orderId: snapshot.child('orderId').value.toString(),
+              orderStatus: int.parse(snapshot.child('status').value.toString()),
+              time: snapshot.child('time').value.toString(),
+            );
+          }),
     );
   }
 }
