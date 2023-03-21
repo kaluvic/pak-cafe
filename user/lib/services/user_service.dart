@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:pak_user/entities/userlist_entity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
   final dbRef = FirebaseDatabase.instance.ref();
@@ -14,5 +15,20 @@ class UserService {
         return userList;
       },
     );
+  }
+
+  Future<Map<String, dynamic>> getUserInfo() async {
+    final userInfo = await SharedPreferences.getInstance();
+    Map<String, dynamic> user = {};
+    String? userName = userInfo.getString('name');
+    String? userId = userInfo.getString('userId');
+    int? credit = userInfo.getInt('credit');
+    user.addAll({'name': userName, 'userId': userId, 'credit': credit});
+    return user;
+  }
+
+  Future<SharedPreferences> userCache() async {
+    final userCache = await SharedPreferences.getInstance();
+    return userCache;
   }
 }

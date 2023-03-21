@@ -116,8 +116,8 @@ class _CartPageState extends State<CartPage> {
         child: FloatingActionButton.extended(
           onPressed: () {
             cartService.setOrder(username, userId);
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const NavigationPage()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const NavigationPage()));
           },
           label: const Text(
             'สั่ง',
