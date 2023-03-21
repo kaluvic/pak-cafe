@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:pak_user/entities/menuinfo_entity.dart';
 import 'package:pak_user/pages/menu_order.dart';
-import 'package:pak_user/pages/order.dart';
+import 'package:pak_user/pages/navigation.dart';
 import 'package:pak_user/services/cart_service.dart';
 import 'package:pak_user/services/menu_service.dart';
 
@@ -62,13 +62,13 @@ class _CartPageState extends State<CartPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             listItem[index].toppings.isEmpty
-                                ? Text('ท็อปปิ้ง : -')
+                                ? const Text('ท็อปปิ้ง : -')
                                 : Text(
                                     "ท็อปปิ้ง : ${listItem[index].toppings}",
                                     style: const TextStyle(fontSize: 12),
                                   ),
                             listItem[index].note.isEmpty
-                                ? Text('โน๊ต : -')
+                                ? const Text('โน๊ต : -')
                                 : Text(
                                     "โน๊ต : ${listItem[index].note}",
                                     style: const TextStyle(fontSize: 12),
@@ -116,8 +116,8 @@ class _CartPageState extends State<CartPage> {
         child: FloatingActionButton.extended(
           onPressed: () {
             cartService.setOrder(username, userId);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const OrderPage()));
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const NavigationPage()));
           },
           label: const Text(
             'สั่ง',
