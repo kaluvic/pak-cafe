@@ -18,6 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late String name;
   late String email;
   late String password;
+  late String userId;
   var uuid = const Uuid();
   final dbRef = FirebaseDatabase.instance.ref();
 
@@ -95,14 +96,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           margin: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(
                               onPressed: () {
+                                userId = uuid.v4();
                                 if (_formKey.currentState!.validate()) {
                                   dbRef.child("user").update({
-                                    uuid.v4(): {
+                                    userId: {
                                       "name": name,
                                       "email": email,
                                       "password": password,
                                       "credit": 0,
-                                      "userId": uuid.v4()
+                                      "userId": userId
                                     }
                                   });
                                   ScaffoldMessenger.of(context).showSnackBar(

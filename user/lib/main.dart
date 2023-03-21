@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const NavigationPage(),
+      home: const LoginPage(),
       //! Change when finish on branch!!!
       // home: const LoginPage(),
     );
