@@ -3,17 +3,22 @@ import 'package:pak_user/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pak_user/pages/login.dart';
 import 'package:pak_user/pages/navigation.dart';
+import 'package:pak_user/services/user_service.dart';
 
 void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  final userService = UserService();
+  bool isLogin = await userService.isLogin();
+
+
+  runApp( MyApp(isLogin: isLogin));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+   MyApp({super.key,required this.isLogin});
+  bool isLogin ;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,9 +26,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const NavigationPage(),
+      // home: const NavigationPage(),
       //! Change when finish on branch!!!
-      // home: const LoginPage(),
+      home: isLogin ? const NavigationPage() : const LoginPage(),
     );
   }
 }

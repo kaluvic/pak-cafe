@@ -21,8 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final userService = UserService();
 
   Future<void> isLogin() async {
-    final userCache = await userService.userCache();
-    if (userCache.getBool('isLogin')!) {
+    if (await userService.isLogin()) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const NavigationPage(),
       ));
@@ -31,10 +30,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: userService.userCache(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
             isLogin();
             return Scaffold(
               body: SafeArea(
@@ -81,22 +76,13 @@ class _LoginPageState extends State<LoginPage> {
                                   top: 40, left: 20, right: 20, bottom: 20),
                               child: ElevatedButton(
                                   onPressed: (() async {
-                                    final userCache =
-                                        await userService.userCache();
                                     Map<String, UserList> userList =
                                         await userService.fetchUser();
                                     userList.forEach((k, v) async {
                                       if (_formKey.currentState!.validate()) {
                                         if (v.email == email &&
                                             v.password == password) {
-                                          await userCache.setString(
-                                              'userId', v.userId);
-                                          await userCache.setString(
-                                              'name', v.name);
-                                          await userCache.setInt(
-                                              'credit', v.credit);
-                                          await userCache.setBool(
-                                              'isLogin', true);
+                                              userService.setUserCache(v.name, v.userId, v.credit);
                                           Navigator.of(context).push(
                                               MaterialPageRoute(
                                                   builder: (context) =>
@@ -121,9 +107,5 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               )),
             );
-          } else {
-            return const CircularProgressIndicator();
-          }
-        });
+        }
   }
-}

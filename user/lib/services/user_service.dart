@@ -22,13 +22,29 @@ class UserService {
     Map<String, dynamic> user = {};
     String? userName = userInfo.getString('name');
     String? userId = userInfo.getString('userId');
-    int? credit = userInfo.getInt('credit');
+    double? credit = userInfo.getDouble('credit');
     user.addAll({'name': userName, 'userId': userId, 'credit': credit});
     return user;
   }
 
-  Future<SharedPreferences> userCache() async {
-    final userCache = await SharedPreferences.getInstance();
-    return userCache;
+  // Future<void> userCache() async {
+  //   final userCache = await SharedPreferences.getInstance();
+  //   print(userCache.getString('name'));
+  // }
+
+  Future<bool> isLogin() async {
+    final user = await SharedPreferences.getInstance();
+    if (user.getString('name') != null) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> setUserCache(String name, String userId, double credit) async {
+    final user = await SharedPreferences.getInstance();
+
+    await user.setString('userId', userId);
+    await user.setString('name', name);
+    await user.setDouble('credit', credit);
   }
 }
