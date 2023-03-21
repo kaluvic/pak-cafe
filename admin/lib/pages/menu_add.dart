@@ -149,9 +149,11 @@ class _MenuAddPageState extends State<MenuAddPage> {
                           status: status,
                           toppings: toppings,
                         );
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const NavaigationPage(),
-                        ));
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => const NavaigationPage(),
+                            ),
+                            ModalRoute.withName('/'));
                       },
                       child: const Text('ยืนยัน')),
                 ),

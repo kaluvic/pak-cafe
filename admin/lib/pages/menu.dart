@@ -27,7 +27,7 @@ class _MenuPageState extends State<MenuPage> {
       ),
       body: FutureBuilder(
           future: Future.wait(
-              [menuService.fetchMenu(), menuService.fetchMenuInfo()]),
+              [menuService.listenMenu(), menuService.listenMenuInfo()]),
           builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
             if (snapshot.hasData) {
               menu = snapshot.data!.first;
@@ -56,7 +56,7 @@ class _MenuPageState extends State<MenuPage> {
                 ],
               );
             } else {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
           }),
     );

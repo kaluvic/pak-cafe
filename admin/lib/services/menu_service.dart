@@ -22,6 +22,15 @@ class MenuService {
     );
   }
 
+  Future<Menu?> listenMenu() async {
+    Menu? menu;
+    ref.child('menu').onValue.listen((event) {
+      String json = jsonEncode(event.snapshot.value);
+      menu = menuFromJson(json);
+    });
+    return menu ?? await fetchMenu();
+  }
+
   // Fetch all menu's info
   Future<Map<String, MenuInfo>> fetchMenuInfo() async {
     return await ref.child("menuInfo").once().then(
@@ -31,6 +40,15 @@ class MenuService {
         return menuinfo;
       },
     );
+  }
+
+  Future<Map<String, MenuInfo>> listenMenuInfo() async {
+    Map<String, MenuInfo>? menuinfo;
+    ref.child('menuInfo').onValue.listen((event) {
+      String json = jsonEncode(event.snapshot.value);
+      menuinfo = menuInfoFromJson(json);
+    });
+    return menuinfo ?? await fetchMenuInfo();
   }
 
   // Create menu tab
@@ -73,17 +91,32 @@ class MenuService {
       // UPDATE
       ref
           .child('menuInfo/$id')
-          .set(menu.toJson())
+          .update(menu.toJson())
           .then((value) => print('Update successfully'));
     } else {
       // ADD
       var uuid = const Uuid();
       var genId = uuid.v4();
+      id = genId;
       ref
           .child('menuInfo/$genId')
           .set(menu.toJson())
           .then((value) => print('Update successfully'));
       //TODO: Add new menuId to category
+      var menuRef = ref.child('menu/category/$catIndex/menuId');
+      menuRef.once().then((event) {
+        List<dynamic> temp = event.snapshot.value as List;
+        int length = temp.length;
+        menuRef.update({'$length': genId});
+      });
+    }
+    if (isRecommend) {
+      var recRef = ref.child('menu/recommend');
+      recRef.once().then((event) {
+        List<dynamic> temp = event.snapshot.value as List;
+        int length = temp.length;
+        recRef.update({'$length': id});
+      });
     }
   }
 }
