@@ -48,13 +48,17 @@ class _HomePageState extends State<HomePage> {
       return ListView.builder(
         itemCount: menuIdList.length,
         itemBuilder: (context, i) {
-          MenuInfo info = _menuMap[menuIdList[i]]!;
-          return ListTile(
-            title: Text(info.name),
-            onTap: () {
-              onMenuTap(info, menuIdList[i]);
-            },
-          );
+          if (i > 0) {
+            MenuInfo info = _menuMap[menuIdList[i]]!;
+            return ListTile(
+              title: Text(info.name),
+              onTap: () {
+                onMenuTap(info, menuIdList[i]);
+              },
+            );
+          } else {
+            return Container();
+          }
         },
       );
     }).toList();
