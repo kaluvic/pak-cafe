@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pak_user/pages/home.dart';
+import 'package:pak_user/pages/login.dart';
 import 'package:pak_user/pages/order.dart';
 import 'package:intl/intl.dart';
 import 'package:pak_user/services/user_service.dart';
@@ -13,15 +14,19 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   final userService = UserService();
-  double cash = 10;
-  String username = 'Chanin';
-  String userId = '72cdf7df-eb6c-4cb6-9216-a85a3d330205';
+  double cash = 0;
+  String username = '';
+  String userId = '';
   int selectedIndex = 0;
   Map<String, dynamic> user = {};
 
   Future<void> dropdownCallback(String? selectedValue) async {
     if (selectedValue == 'logout') {
-      print('Logout');
+      userService.clearUserCache();
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ));
     }
   }
 

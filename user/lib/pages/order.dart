@@ -18,12 +18,6 @@ class _OrderPageState extends State<OrderPage> {
   final userService = UserService();
   Map<String, dynamic> user = {};
 
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue == 'logout') {
-      print('Logout');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

@@ -27,11 +27,6 @@ class UserService {
     return user;
   }
 
-  // Future<void> userCache() async {
-  //   final userCache = await SharedPreferences.getInstance();
-  //   print(userCache.getString('name'));
-  // }
-
   Future<bool> isLogin() async {
     final user = await SharedPreferences.getInstance();
     if (user.getString('name') != null) {
@@ -46,5 +41,13 @@ class UserService {
     await user.setString('userId', userId);
     await user.setString('name', name);
     await user.setDouble('credit', credit);
+  }
+
+  Future<void> clearUserCache() async {
+    final user = await SharedPreferences.getInstance();
+
+    await user.remove('name');
+    await user.remove('userId');
+    await user.remove('credit');
   }
 }
