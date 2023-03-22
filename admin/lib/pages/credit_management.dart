@@ -14,7 +14,7 @@ class CreditManagement extends StatefulWidget {
 
 class _CreditManagementState extends State<CreditManagement> {
   String searchText = '';
-  int credit = 0;
+  double credit = 0;
   final TextEditingController _controller = TextEditingController();
   final userService = UserService();
 

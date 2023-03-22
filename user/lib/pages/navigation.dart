@@ -13,9 +13,9 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   final userService = UserService();
-  int cash = 10;
+  double cash = 10;
   String username = 'Chanin';
-  String userId = '';
+  String userId = '72cdf7df-eb6c-4cb6-9216-a85a3d330205';
   int selectedIndex = 0;
   Map<String, dynamic> user = {};
 

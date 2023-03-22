@@ -24,7 +24,7 @@ class UserService {
     return user;
   }
 
-  Future<void> updateUser(UserList user, int credit) async {
+  Future<void> updateUser(UserList user, double credit) async {
     return await dbRef.child("user").update({
       user.userId: {
         "name": user.name,

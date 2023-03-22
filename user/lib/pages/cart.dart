@@ -22,7 +22,7 @@ class _CartPageState extends State<CartPage> {
   // MOCK Data
   String username = '';
   String userId = '';
-  int userCredit = 0;
+  double userCredit = 0;
 
   List<Item> listItem = [];
   double totalPrice = 0;
