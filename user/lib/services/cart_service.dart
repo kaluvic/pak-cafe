@@ -72,8 +72,12 @@ class CartService {
     int number = 0;
     DatabaseReference orderNumRef =
         FirebaseDatabase.instance.ref("order/$userId");
-    await orderNumRef.child("orderNumber").once().then((value) {
-      number = value.snapshot.value as int;
+    await orderNumRef.child("orderNumber").once().then((value) async {
+      if (value.snapshot.value == null) {
+        await orderNumRef.update({'orderNumber': 0});
+      } else {
+        number = value.snapshot.value as int;
+      }
     });
     await orderNumRef.update({'orderNumber': number + 1});
     DatabaseReference orderListRef =

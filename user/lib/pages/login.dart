@@ -3,7 +3,6 @@ import 'package:pak_user/entities/userlist_entity.dart';
 import 'package:pak_user/pages/navigation.dart';
 import 'package:pak_user/pages/register.dart';
 import 'package:pak_user/services/user_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
