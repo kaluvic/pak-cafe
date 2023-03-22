@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:pak_user/pages/login.dart';
 import 'package:pak_user/services/user_service.dart';
 import 'package:pak_user/widgets/order_status_card.dart';
 
@@ -20,7 +21,11 @@ class _OrderPageState extends State<OrderPage> {
 
   void dropdownCallback(String? selectedValue) {
     if (selectedValue == 'logout') {
-      print('Logout');
+      userService.clearUserCache();
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ));
     }
   }
 
