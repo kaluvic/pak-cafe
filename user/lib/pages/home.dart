@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                 onMenuTap(info, menuIdList[i]);
               },
             );
-          }else{
+          } else {
             return Container();
           }
         },
