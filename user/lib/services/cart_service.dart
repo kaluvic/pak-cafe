@@ -66,7 +66,7 @@ class CartService {
     String cartListId = uuid.v4();
     DatabaseReference orderInfoRef =
         FirebaseDatabase.instance.ref("orderInfo/$cartListId");
-    await orderInfoRef.set({'username': username});
+    await orderInfoRef.set({'username': username, "status": 0});
 
     DateTime _now = DateTime.now();
     int number = 0;
@@ -95,7 +95,7 @@ class CartService {
       Item item = itemFromJson(value);
       String cartItemId = uuid.v4();
       DatabaseReference itemRef = FirebaseDatabase.instance
-          .ref("orderInfo/$cartListId/cartList/$cartItemId");
+          .ref("orderInfo/$cartListId/menuList/$cartItemId");
       await itemRef.set({
         'count': item.count,
         'menuName': item.name,
