@@ -15,7 +15,7 @@ class _CreditSearchUserPageState extends State<CreditSearchUserPage> {
   final userService = UserService();
   List<UserList> user = [];
   List<UserList> userSearch = [];
-  TextEditingController textEditingController = new TextEditingController();
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,9 @@ class _CreditSearchUserPageState extends State<CreditSearchUserPage> {
                             userSearch = [];
                           } else {
                             userSearch = user.where((element) {
-                              return element.name.contains(searchValue);
+                              return element.name
+                                  .toLowerCase()
+                                  .contains(searchValue);
                             }).toList();
                           }
                         });
