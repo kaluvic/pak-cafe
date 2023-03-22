@@ -51,7 +51,7 @@ class _DrinkListState extends State<DrinkList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: widget.menuIdList.length + 1,
+      itemCount: widget.menuIdList.length,
       itemBuilder: (context, index) {
         if (index == 0) {
           return ListTile(
@@ -62,7 +62,7 @@ class _DrinkListState extends State<DrinkList> {
             },
           );
         } else {
-          String id = widget.menuIdList[index - 1];
+          String id = widget.menuIdList[index];
           MenuInfo menuInfo = widget.menuInfoMap[id]!;
           return ListTile(
             title: Text(menuInfo.name),

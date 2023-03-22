@@ -119,4 +119,18 @@ class MenuService {
       });
     }
   }
+
+  void updateCategory(String name) {
+    var catRef = ref.child('menu/category');
+    catRef.once().then((event) {
+      List<dynamic> temp = event.snapshot.value as List;
+      int length = temp.length;
+      catRef.update({
+        '$length': {
+          'menuId': {'0': "init"},
+          'name': name
+        }
+      });
+    });
+  }
 }
