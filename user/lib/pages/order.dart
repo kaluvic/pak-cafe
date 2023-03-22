@@ -19,16 +19,6 @@ class _OrderPageState extends State<OrderPage> {
   final userService = UserService();
   Map<String, dynamic> user = {};
 
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue == 'logout') {
-      userService.clearUserCache();
-
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const LoginPage(),
-      ));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
