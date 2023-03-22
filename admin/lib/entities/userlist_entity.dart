@@ -14,7 +14,7 @@ class UserList {
       required this.password,
       required this.userId});
 
-  int credit;
+  double credit;
   String email;
   String name;
   String password;

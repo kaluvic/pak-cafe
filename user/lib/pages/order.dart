@@ -12,7 +12,7 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
-  int cash = 0;
+  double cash = 0;
   String username = '';
   String uid = '';
   final userService = UserService();
