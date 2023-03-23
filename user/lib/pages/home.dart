@@ -4,6 +4,7 @@ import 'package:pak_user/entities/menuinfo_entity.dart';
 import 'package:pak_user/pages/menu_order.dart';
 import 'package:pak_user/services/menu_service.dart';
 import 'package:pak_user/pages/cart.dart';
+import 'package:pak_user/theme/customtheme.dart';
 import '../entities/menulist_entity.dart';
 
 class HomePage extends StatefulWidget {
@@ -121,8 +122,9 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Container(
                             child: TabBar(
-                                labelColor: Colors.blue,
-                                unselectedLabelColor: Colors.black,
+                                indicatorColor: CoffeeColor.coffee,
+                                labelColor: CoffeeColor.cream,
+                                unselectedLabelColor: CoffeeColor.coffee,
                                 tabs: generateTab()),
                           ),
                           //* BODY

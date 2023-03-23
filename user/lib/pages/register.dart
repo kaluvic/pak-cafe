@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   var uuid = const Uuid();
   final dbRef = FirebaseDatabase.instance.ref();
   final userService = UserService();
-  Map<String, UserList> userList = {};
+  Map<String?, UserList> userList = {};
   bool isExist = false;
 
   @override
