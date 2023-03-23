@@ -1,17 +1,29 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:pak_admin/entities/cartinfo_entity.dart';
 
 class OrderCardWidget extends StatefulWidget {
-  const OrderCardWidget({super.key});
-
+  const OrderCardWidget(
+      {super.key,
+      required this.username,
+      required this.status,
+      required this.orderId,
+      required this.cartInfo});
+  final Map<String, CartInfo> cartInfo;
+  final String orderId;
+  final String username;
+  final int status;
   @override
   State<OrderCardWidget> createState() => _OrderCardWidgetState();
 }
 
 class _OrderCardWidgetState extends State<OrderCardWidget> {
-  List<String> menuList = ['t1', 't2', 't3'];
-
+  List<CartInfo> cartList = [];
+  
   @override
   Widget build(BuildContext context) {
+    createList(widget.cartInfo);
     return Center(
       child: Card(
         margin: const EdgeInsets.all(20),
@@ -23,16 +35,16 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
             builder: (BuildContext context) => AlertDialog(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
-                    "Username",
+                    "User: ${widget.username}",
                   ),
                   Text(
-                    "Order ID",
+                    "Order ID : ${widget.orderId.split('-').first}",
                   ),
                 ],
               ),
-              content: const Text('เมนูที่สั่ง'),
+              content: SizedBox(width: double.maxFinite, child: genMenuDialogBox()),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'รับออเดอร์'),
@@ -55,19 +67,19 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
                   margin: const EdgeInsets.all(10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
-                        "Username",
+                        "User : ${widget.username}",
                       ),
                       Text(
-                        "Order ID",
+                        "Order ID : ${widget.orderId.split('-').first}",
                       ),
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.all(10),
-                  child: orderlist(menuList.length),
+                  child: orderlist(widget.cartInfo.length),
                 ),
                 Container(
                   margin: const EdgeInsets.all(10),
@@ -91,24 +103,88 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
     );
   }
 
+  void createList(Map<String, CartInfo> cartinfo) {
+    cartinfo.forEach((key, value) {
+      cartList.add(value);
+    });
+  }
+
+  Widget genMenuDialogBox() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: cartList.length,
+      itemBuilder: (context, index) {
+        String topping = '-';
+        String notes = '-';
+
+        if (cartList[index].toppings.isNotEmpty) {
+          topping = cartList[index].toppings;
+        }
+        if (cartList[index].note.isNotEmpty) {
+          notes = cartList[index].note;
+        }
+        return ListTile(
+          leading: Text('${cartList[index].count}'),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${cartList[index].menuName} (${cartList[index].status})'),
+              Text('ท็อปปิ้ง : $topping'),
+              Text('Note : $notes')
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Container genMenuCard(CartInfo cart) {
+    String topping = '-';
+    String notes = '-';
+
+    if (cart.toppings.isNotEmpty) {
+      topping = cart.toppings;
+    }
+    if (cart.note.isNotEmpty) {
+      notes = cart.note;
+    }
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(5, 2, 10, 0),
+            child: Text(cart.count.toString())
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${cart.menuName} (${cart.status})'),
+              Text('ท็อปปิ้ง : $topping'),
+              Text('Note : $notes')
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
   orderlist(int range) {
     if (range <= 2) {
       if (range == 1) {
-        return Text(menuList[0]);
+        return genMenuCard(cartList[0]);
       } else {
         return Column(
-          children: [
-            Text(menuList[0]),
-            Text(menuList[1]),
-          ],
+          children: [genMenuCard(cartList[0]), genMenuCard(cartList[1])],
         );
       }
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(menuList[0]),
-          Text(menuList[1]),
+          genMenuCard(cartList[0]),
+          genMenuCard(cartList[1]),
           Text("... มีอีก ${range - 2} รายการ"),
         ],
       );
