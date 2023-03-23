@@ -51,7 +51,6 @@ class UserService {
     await user.setString('userId', userId);
     await user.setString('name', name);
     await user.setDouble('credit', credit);
-    print(user);
   }
 
   Future<void> clearUserCache() async {
