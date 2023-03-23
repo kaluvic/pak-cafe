@@ -133,7 +133,7 @@ class _CartPageState extends State<CartPage> {
               floatingActionButton: SizedBox(
                 width: 300,
                 child: FloatingActionButton.extended(
-                  onPressed: () {
+                  onPressed: () async {
                     if (listItem.isEmpty) {
                       showDialog(
                           context: context,
@@ -145,6 +145,8 @@ class _CartPageState extends State<CartPage> {
                               ));
                     } else {
                       if (userCredit >= totalPrice) {
+                        await userService.updateUserCredit(
+                            userCredit - totalPrice, userId);
                         cartService.setOrder(username, userId);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => const NavigationPage()));

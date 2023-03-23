@@ -27,6 +27,25 @@ class UserService {
     return user;
   }
 
+  Future<void> updateUserCredit(double credit, String userId) async {
+    final user = await SharedPreferences.getInstance();
+    Map<String, UserList> userList = await fetchUser();
+    await user.setDouble('credit', credit);
+    userList.forEach((key, value) {
+      if (key == userId) {
+        dbRef.child('user').update({
+          userId: {
+            "name": value.name,
+            "email": value.email,
+            "password": value.password,
+            "credit": credit,
+            "userId": value.userId
+          }
+        });
+      }
+    });
+  }
+
   Future<bool> isLogin() async {
     final user = await SharedPreferences.getInstance();
     if (user.getString('name') != null) {
