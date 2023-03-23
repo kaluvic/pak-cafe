@@ -30,129 +30,130 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back_ios_new)),
-          Container(
-            margin:
-                const EdgeInsets.only(top: 0, left: 30, right: 30, bottom: 40),
-            child: SafeArea(
-                child: Column(
-              children: [
-                SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: Image.asset('images/MyIcon.jpg'),
-                ),
-                FutureBuilder(
-                    future: userService.fetchUser(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        userList = snapshot.data!;
-                      }
-                      return Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                decoration:
-                                    const InputDecoration(labelText: 'Name'),
-                                validator: (validate) {
-                                  userList.forEach((key, value) {
-                                    if (validate == value.name) {
-                                      isExist = true;
-                                    }
-                                  });
-                                  if (validate!.isEmpty) {
-                                    return 'กรุณาใส่ชื่อ';
-                                  } else if (validate.isNotEmpty && isExist) {
-                                    return 'ชื่อนี้ถูกใช้งานแล้ว';
-                                  }
-                                  name = validate;
-                                  isExist = false;
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                decoration:
-                                    const InputDecoration(labelText: 'Email'),
-                                validator: (validate) {
-                                  if (validate!.isEmpty) {
-                                    return 'กรุณาใส่ Email';
-                                  } else if (!_emailForm.hasMatch(validate)) {
-                                    return 'Email ไม่ถูกต้อง';
-                                  } else if (isExist) {
-                                    return 'Email ถูกใช้งานแล้ว';
-                                  }
-                                  email = validate;
-                                  isExist = false;
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                obscureText: true,
-                                decoration: const InputDecoration(
-                                    labelText: 'Password'),
-                                validator: (validate) {
-                                  if (validate!.isEmpty) {
-                                    return 'กรุณาใส่รหัสผ่าน';
-                                  } else if (validate.length < 8) {
-                                    return 'รหัสผ่านน้อยกว่า 8 หลัก';
-                                  }
-                                  _password = validate;
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                obscureText: true,
-                                decoration: const InputDecoration(
-                                    labelText: 'Confirm Password'),
-                                validator: (validate) {
-                                  if (validate!.isEmpty) {
-                                    return 'กรุณายืนยันรหัสผ่าน';
-                                  } else if (validate != _password) {
-                                    return 'รหัสผ่านไม่ตรงกัน';
-                                  }
-                                  password = validate;
-                                  return null;
-                                },
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 40),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      userId = uuid.v4();
-                                      if (_formKey.currentState!.validate()) {
-                                        dbRef.child("user").update({
-                                          userId: {
-                                            "name": name,
-                                            "email": email,
-                                            "password": password,
-                                            "credit": 0,
-                                            "userId": userId
-                                          }
-                                        });
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginPage(),
-                                        ));
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios_new)),
+            Container(
+              margin: const EdgeInsets.only(
+                  top: 0, left: 30, right: 30, bottom: 40),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: Image.asset('assets/images/MyIcon.jpg'),
+                  ),
+                  FutureBuilder(
+                      future: userService.fetchUser(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          userList = snapshot.data!;
+                        }
+                        return Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  decoration:
+                                      const InputDecoration(labelText: 'Name'),
+                                  validator: (validate) {
+                                    userList.forEach((key, value) {
+                                      if (validate == value.name) {
+                                        isExist = true;
                                       }
-                                    },
-                                    child: const Text('สมัครสมาชิก')),
-                              )
-                            ],
-                          ));
-                    })
-              ],
-            )),
-          ),
-        ],
+                                    });
+                                    if (validate!.isEmpty) {
+                                      return 'กรุณาใส่ชื่อ';
+                                    } else if (validate.isNotEmpty && isExist) {
+                                      return 'ชื่อนี้ถูกใช้งานแล้ว';
+                                    }
+                                    name = validate;
+                                    isExist = false;
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  decoration:
+                                      const InputDecoration(labelText: 'Email'),
+                                  validator: (validate) {
+                                    if (validate!.isEmpty) {
+                                      return 'กรุณาใส่ Email';
+                                    } else if (!_emailForm.hasMatch(validate)) {
+                                      return 'Email ไม่ถูกต้อง';
+                                    } else if (isExist) {
+                                      return 'Email ถูกใช้งานแล้ว';
+                                    }
+                                    email = validate;
+                                    isExist = false;
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  obscureText: true,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Password'),
+                                  validator: (validate) {
+                                    if (validate!.isEmpty) {
+                                      return 'กรุณาใส่รหัสผ่าน';
+                                    } else if (validate.length < 8) {
+                                      return 'รหัสผ่านน้อยกว่า 8 หลัก';
+                                    }
+                                    _password = validate;
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  obscureText: true,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Confirm Password'),
+                                  validator: (validate) {
+                                    if (validate!.isEmpty) {
+                                      return 'กรุณายืนยันรหัสผ่าน';
+                                    } else if (validate != _password) {
+                                      return 'รหัสผ่านไม่ตรงกัน';
+                                    }
+                                    password = validate;
+                                    return null;
+                                  },
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 40),
+                                  child: ElevatedButton(
+                                      onPressed: () async {
+                                        userId = uuid.v4();
+                                        if (_formKey.currentState!.validate()) {
+                                          await dbRef.child("user").update({
+                                            userId: {
+                                              "name": name,
+                                              "email": email,
+                                              "password": password,
+                                              "credit": 0,
+                                              "userId": userId
+                                            }
+                                          });
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginPage(),
+                                          ));
+                                        }
+                                      },
+                                      child: const Text('สมัครสมาชิก')),
+                                )
+                              ],
+                            ));
+                      })
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

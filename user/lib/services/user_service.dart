@@ -33,15 +33,7 @@ class UserService {
     await user.setDouble('credit', credit);
     userList.forEach((key, value) {
       if (key == userId) {
-        dbRef.child('user').update({
-          userId: {
-            "name": value.name,
-            "email": value.email,
-            "password": value.password,
-            "credit": credit,
-            "userId": value.userId
-          }
-        });
+        dbRef.child('user/$userId').update({'credit': credit});
       }
     });
   }
@@ -56,7 +48,6 @@ class UserService {
 
   Future<void> setUserCache(String name, String userId, double credit) async {
     final user = await SharedPreferences.getInstance();
-
     await user.setString('userId', userId);
     await user.setString('name', name);
     await user.setDouble('credit', credit);

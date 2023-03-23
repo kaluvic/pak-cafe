@@ -4,6 +4,7 @@ import 'package:pak_user/pages/login.dart';
 import 'package:pak_user/pages/order.dart';
 import 'package:intl/intl.dart';
 import 'package:pak_user/services/user_service.dart';
+import 'package:pak_user/theme/customtheme.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -39,26 +40,39 @@ class _NavigationPageState extends State<NavigationPage> {
             user = snapshot.data!;
             username = user['name'];
             userId = user['userId'];
-            cash = user['credit'];
             return Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    DropdownButton<String>(
-                        value: 'default',
-                        items: [
-                          DropdownMenuItem(
-                              value: 'default',
-                              child: Text(
-                                username,
-                              )),
-                          const DropdownMenuItem(
-                              value: 'logout', child: Text('Logout')),
-                        ],
-                        onChanged: dropdownCallback),
-                    Text(NumberFormat.currency(symbol: '฿').format(cash))
+                    Container(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8.0)),
+                          color: CoffeeColor.milk),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                            style: const TextStyle(color: CoffeeColor.coffee),
+                            dropdownColor: CoffeeColor.milk,
+                            value: 'default',
+                            items: [
+                              DropdownMenuItem(
+                                  value: 'default',
+                                  child: Text(
+                                    username,
+                                  )),
+                              const DropdownMenuItem(
+                                  value: 'logout', child: Text('Logout')),
+                            ],
+                            onChanged: dropdownCallback),
+                      ),
+                    ),
+                    Text(
+                      NumberFormat.currency(symbol: '฿').format(cash),
+                      style: TextStyle(color: CoffeeColor.milk),
+                    )
                   ],
                 ),
               ),
