@@ -33,7 +33,7 @@ class UserService {
     await user.setDouble('credit', credit);
     userList.forEach((key, value) {
       if (key == userId) {
-        dbRef.child('user/$userId/$credit').update({'credit': credit});
+        dbRef.child('user/$userId').update({'credit': credit});
       }
     });
   }
