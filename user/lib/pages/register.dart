@@ -125,10 +125,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               Container(
                                 margin: const EdgeInsets.only(top: 40),
                                 child: ElevatedButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       userId = uuid.v4();
                                       if (_formKey.currentState!.validate()) {
-                                        dbRef.child("user").update({
+                                        await dbRef.child("user").update({
                                           userId: {
                                             "name": name,
                                             "email": email,
