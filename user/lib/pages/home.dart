@@ -89,7 +89,8 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   //* Recommend menu slider
                   CarouselSlider(
-                    options: CarouselOptions(autoPlay: true, height: 400.0),
+                    options: CarouselOptions(
+                        autoPlay: true, height: (0.3 * heightScreen)),
                     items: [1, 2, 3, 4, 5].map((e) {
                       return Builder(
                         builder: (context) {

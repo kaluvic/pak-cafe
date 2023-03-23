@@ -11,9 +11,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  bool isLogin = false;
   final userService = UserService();
-  bool isLogin = await userService.isLogin();
-
+  isLogin = await userService.isLogin();
+  // userService.clearUserCache().then((value) async {
+  //   isLogin = await userService.isLogin();
+  //   log('Clear cache', name: 'system');
+  // });
   runApp(MyApp(isLogin: isLogin));
 }
 
@@ -23,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Pak cafe',
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.defaultTheme,
       home: isLogin ? const NavigationPage() : const LoginPage(),
