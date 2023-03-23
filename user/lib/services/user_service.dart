@@ -48,7 +48,6 @@ class UserService {
 
   Future<void> setUserCache(String name, String userId, double credit) async {
     final user = await SharedPreferences.getInstance();
-
     await user.setString('userId', userId);
     await user.setString('name', name);
     await user.setDouble('credit', credit);

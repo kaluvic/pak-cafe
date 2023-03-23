@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: 100,
               height: 100,
-              child: Image.asset('images/MyIcon.jpg'),
+              child: Image.asset('assets/images/MyIcon.jpg'),
             ),
             Form(
                 key: _formKey,
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                                 if (v.email == email &&
                                     v.password == password) {
                                   await userService.setUserCache(
-                                      v.name, v.userId, v.credit);
+                                      v.name, v.userId, v.credit.toDouble());
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) =>
                                           const NavigationPage()));
