@@ -147,7 +147,7 @@ class _CartPageState extends State<CartPage> {
                       if (userCredit >= totalPrice) {
                         await userService.updateUserCredit(
                             userCredit - totalPrice, userId);
-                        cartService.setOrder(username, userId);
+                        cartService.setOrder(username, userId, totalPrice);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => const NavigationPage()));
                       } else {
