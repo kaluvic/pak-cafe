@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   var uuid = const Uuid();
   final dbRef = FirebaseDatabase.instance.ref();
   final userService = UserService();
-  Map<String?, UserList> userList = {};
+  Map<String, UserList> userList = {};
   bool isExist = false;
 
   @override
@@ -42,8 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
             Container(
               margin: const EdgeInsets.only(
                   top: 0, left: 30, right: 30, bottom: 40),
-              child: SafeArea(
-                  child: Column(
+              child: Column(
                 children: [
                   SizedBox(
                     width: 100,
@@ -126,10 +125,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 Container(
                                   margin: const EdgeInsets.only(top: 40),
                                   child: ElevatedButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         userId = uuid.v4();
                                         if (_formKey.currentState!.validate()) {
-                                          dbRef.child("user").update({
+                                          await dbRef.child("user").update({
                                             userId: {
                                               "name": name,
                                               "email": email,
@@ -151,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ));
                       })
                 ],
-              )),
+              ),
             ),
           ],
         ),
