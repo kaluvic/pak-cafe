@@ -14,10 +14,6 @@ void main() async {
   bool isLogin = false;
   final userService = UserService();
   isLogin = await userService.isLogin();
-  // userService.clearUserCache().then((value) async {
-  //   isLogin = await userService.isLogin();
-  //   log('Clear cache', name: 'system');
-  // });
   runApp(MyApp(isLogin: isLogin));
 }
 
