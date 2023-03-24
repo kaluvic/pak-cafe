@@ -1,11 +1,14 @@
-import 'dart:convert';
+///   ณัฐชัย กัณฑเจตน์ 620510595
 
+import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
+
+///   Feature สำหรับสร้างออเดอร์และข้อมูลออเดอร์ในดาต้าเบส
 class CartService {
   Map<String, dynamic> cartItem = {};
   String userId = '';

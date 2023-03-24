@@ -1,3 +1,5 @@
+///   ณัฐชัย กัณฑเจตน์ 620510595
+
 import 'package:flutter/material.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:pak_user/entities/menuinfo_entity.dart';
@@ -7,6 +9,7 @@ import 'package:pak_user/services/cart_service.dart';
 import 'package:pak_user/services/menu_service.dart';
 import 'package:pak_user/services/user_service.dart';
 
+///   Page การจัดการตะกร้าสินค้า aka ออเดอร์
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
@@ -19,7 +22,6 @@ class _CartPageState extends State<CartPage> {
   MenuService menuService = MenuService();
   final userService = UserService();
 
-  // MOCK Data
   String username = '';
   String userId = '';
   double userCredit = 0;

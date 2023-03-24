@@ -1,8 +1,12 @@
+///   ณัฐชัย กัณฑเจตน์ 620510595
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pak_admin/entities/cartinfo_entity.dart';
 import 'package:pak_admin/theme/customtheme.dart';
 
+///   Feature การสร้างการ์ดออเดอร์ และ ออเดอร์ AlertDialog
+///   Feature อัพเดตสถานะของแต่ละออเดอร์
 class OrderCardWidget extends StatefulWidget {
   const OrderCardWidget(
       {super.key,
@@ -44,7 +48,7 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
     }
   }
 
-  orderlist(int range) {
+  Widget orderlist(int range) {
     if (range <= 2) {
       if (range == 1) {
         return genMenuCard(cartList[0]);

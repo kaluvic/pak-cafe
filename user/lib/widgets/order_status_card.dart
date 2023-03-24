@@ -1,5 +1,9 @@
+///   ณัฐชัย กัณฑเจตน์ 620510595
+
 import 'package:flutter/material.dart';
 
+
+///   Widget แสดงรายละเอียดของแต่ละออเดอร์
 class OrderStatusCardWidget extends StatefulWidget {
   const OrderStatusCardWidget(
       {super.key,
