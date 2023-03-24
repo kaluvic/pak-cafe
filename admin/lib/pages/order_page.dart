@@ -16,6 +16,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("รายการออเดอร์")),
       body: SafeArea(
         child: FirebaseAnimatedList(
             query: FirebaseDatabase.instance

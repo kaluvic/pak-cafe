@@ -23,9 +23,11 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
   List<CartInfo> cartList = [];
 
   void createList(Map<String, CartInfo> cartinfo) {
+    List<CartInfo> tempCart = [];
     cartinfo.forEach((key, value) {
-      cartList.add(value);
+      tempCart.add(value);
     });
+    cartList = tempCart;
   }
 
   Color statusColor() {
