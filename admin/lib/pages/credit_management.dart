@@ -1,3 +1,7 @@
+/// ชนินทร์ รังสาคร 620510590
+/// CreditManagement
+/// แสดงหน้าจัดการเครดิตของผู้ใช้
+/// เพิ่มเครดิตตามจำนวนที่เติม
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pak_admin/entities/userlist_entity.dart';

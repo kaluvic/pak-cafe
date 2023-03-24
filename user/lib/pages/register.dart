@@ -1,3 +1,6 @@
+/// ชนินทร์ รังสาคร 620510590
+/// แสดงหน้าสมัครสมาชิก
+/// validate ข้อมูลก่อนส่งขึ้นฐานข้อมูล
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:pak_user/entities/userlist_entity.dart';

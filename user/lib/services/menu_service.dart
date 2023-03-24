@@ -1,3 +1,7 @@
+/// ธัชทร วงศ์ไชย 620510601
+/// MenuService
+/// มีฟังก์ชันดึงข้อมูล Menu และ MenuList จาก Firebase
+
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -8,7 +12,7 @@ import '../entities/menulist_entity.dart';
 class MenuService {
   final ref = FirebaseDatabase.instance.ref();
 
-  /// Fetch Menu data
+  // Fetch Menu data
   Future<MenuList?> fetchMenuList() async {
     return await ref.child('menu').once().then((event) {
       String json = jsonEncode(event.snapshot.value);

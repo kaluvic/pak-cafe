@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pak_user/entities/userlist_entity.dart';
 import 'package:pak_user/pages/home.dart';
 import 'package:pak_user/pages/login.dart';
 import 'package:pak_user/pages/order.dart';
 import 'package:intl/intl.dart';
 import 'package:pak_user/services/user_service.dart';
 import 'package:pak_user/theme/customtheme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -29,6 +31,16 @@ class _NavigationPageState extends State<NavigationPage> {
         builder: (context) => const LoginPage(),
       ));
     }
+  }
+
+  Future<void> updateUserCredit(String userId) async {
+    Map<String, UserList> userList = await userService.fetchUser();
+    final user = await SharedPreferences.getInstance();
+    setState(() {
+      if (userList.keys.contains(userId)) {
+        user.setDouble('credit', userList[userId]!.credit);
+      }
+    });
   }
 
   @override
@@ -80,7 +92,12 @@ class _NavigationPageState extends State<NavigationPage> {
                     Text(
                       NumberFormat.currency(symbol: '฿').format(credit),
                       style: TextStyle(color: CoffeeColor.milk),
-                    )
+                    ),
+                    IconButton(
+                        onPressed: () async {
+                          await updateUserCredit(userId);
+                        },
+                        icon: const Icon(Icons.refresh)),
                   ],
                 ),
               ),

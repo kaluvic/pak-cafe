@@ -1,3 +1,7 @@
+/// ธัชทร วงศ์ไชย 620510601
+/// CheckBoxTile
+/// Widget สำหรับสร้างการเลือกสถานะร้อน เย็น ปั่น
+
 import 'package:flutter/material.dart';
 
 typedef CallBack = Function(double);

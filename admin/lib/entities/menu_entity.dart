@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final menu = menuFromJson(jsonString);
-
 import 'dart:convert';
 
 Menu menuFromJson(String str) => Menu.fromJson(json.decode(str));

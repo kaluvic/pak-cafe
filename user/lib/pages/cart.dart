@@ -1,3 +1,7 @@
+///   ณัฐชัย กัณฑเจตน์ 620510595
+///   CartPage
+///   หน้าจอการจัดการตะกร้าสินค้า(ออเดอร์)
+
 import 'package:flutter/material.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:pak_user/entities/menuinfo_entity.dart';
@@ -19,7 +23,6 @@ class _CartPageState extends State<CartPage> {
   MenuService menuService = MenuService();
   final userService = UserService();
 
-  // MOCK Data
   String username = '';
   String userId = '';
   double userCredit = 0;

@@ -1,3 +1,10 @@
+/// ธัชทร วงศ์ไชย 620510601
+/// CategoryAdd
+/// Widget ในหน้า Tab สำหรับเพิ่ม Category
+/// การเพิ่ม Category ใหม่จากที่วางแผนไว้จะเป็นการกดแท็บ + แล้วมี Pop up
+/// ให้เพิ่มข้อมูล เปลี่ยนเป็นกดแท็บ แล้วไปแท็บเพิ่มข้อมูลแทน เพราะปุ่มแท็บไม่สามารถ
+/// เช็คเป็น onPressed ได้
+
 import 'package:flutter/material.dart';
 import 'package:pak_admin/pages/navigation.dart';
 import 'package:pak_admin/services/menu_service.dart';
