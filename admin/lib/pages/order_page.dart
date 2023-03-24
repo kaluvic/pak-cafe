@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:pak_admin/entities/cartinfo_entity.dart';
+import 'package:pak_admin/theme/customtheme.dart';
 import 'package:pak_admin/widgets/order_card.dart';
 
 class OrderPage extends StatefulWidget {
@@ -16,7 +17,14 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("รายการออเดอร์")),
+      appBar: AppBar(
+        title: Text(
+          "รายการออเดอร์",
+          style:
+              TextStyle(fontWeight: FontWeight.w600, color: CoffeeColor.milk),
+        ),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: FirebaseAnimatedList(
             query: FirebaseDatabase.instance

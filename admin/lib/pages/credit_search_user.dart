@@ -3,6 +3,8 @@ import 'package:pak_admin/entities/userlist_entity.dart';
 import 'package:pak_admin/pages/credit_management.dart';
 import 'package:pak_admin/services/user_service.dart';
 
+import '../theme/customtheme.dart';
+
 class CreditSearchUserPage extends StatefulWidget {
   const CreditSearchUserPage({super.key});
 
@@ -21,7 +23,11 @@ class _CreditSearchUserPageState extends State<CreditSearchUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('การจัดการเครดิต'),
+        title: Text(
+          'การจัดการเครดิต',
+          style:
+              TextStyle(fontWeight: FontWeight.w600, color: CoffeeColor.milk),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
