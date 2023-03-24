@@ -43,31 +43,26 @@ class _MenuPageState extends State<MenuPage> {
               menu = snapshot.data!.first;
               menuMap = snapshot.data!.last;
               tabviews = menuService.createTabview(menu.category, menuMap);
-              return Column(
-                children: [
-                  DefaultTabController(
-                      length: tabviews[0].length,
-                      initialIndex: 0,
-                      child: Column(
-                        children: [
-                          Container(
-                            child: TabBar(
-                                labelColor: CoffeeColor.cream,
-                                unselectedLabelColor: CoffeeColor.coffee,
-                                indicatorColor: CoffeeColor.cream,
-                                labelStyle: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w600),
-                                tabs: tabviews.first),
-                          ),
-                          //* BODY
-                          SizedBox(
-                            height: heightScreen * 0.3,
-                            child: TabBarView(children: tabviews.last),
-                          )
-                        ],
-                      )),
-                ],
-              );
+              return DefaultTabController(
+                  length: tabviews[0].length,
+                  initialIndex: 0,
+                  child: Column(
+                    children: [
+                      Container(
+                        child: TabBar(
+                            labelColor: CoffeeColor.cream,
+                            unselectedLabelColor: CoffeeColor.coffee,
+                            indicatorColor: CoffeeColor.cream,
+                            labelStyle: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                            tabs: tabviews.first),
+                      ),
+                      //* BODY
+                      Expanded(
+                          child: SizedBox(
+                              child: TabBarView(children: tabviews.last)))
+                    ],
+                  ));
             } else {
               return const Center(child: CircularProgressIndicator());
             }

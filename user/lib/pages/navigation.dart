@@ -97,7 +97,10 @@ class _NavigationPageState extends State<NavigationPage> {
                         onPressed: () async {
                           await updateUserCredit(userId);
                         },
-                        icon: const Icon(Icons.refresh)),
+                        icon: Icon(
+                          Icons.refresh,
+                          color: CoffeeColor.milk,
+                        )),
                   ],
                 ),
               ),

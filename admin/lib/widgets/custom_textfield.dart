@@ -1,7 +1,7 @@
 /// ธัชทร วงศ์ไชย 620510601
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   CustomTextField(this.title, {Key? key, this.value, required this.controller})
       : super(key: key);
   late String title;
@@ -9,17 +9,27 @@ class CustomTextField extends StatelessWidget {
   late TextEditingController controller;
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  @override
+  void initState() {
+    widget.controller.text = widget.value ?? '';
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    controller.text = value ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          title,
+          widget.title,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         TextField(
-          controller: controller,
+          controller: widget.controller,
         ),
       ],
     );

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Pak cafe',
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.defaultTheme,
-      home: const NavaigationPage(),
+      home: const NavigationPage(),
     );
   }
 }
