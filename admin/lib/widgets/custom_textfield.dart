@@ -13,7 +13,10 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title),
+        Text(
+          title,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
         TextField(
           controller: controller,
         ),

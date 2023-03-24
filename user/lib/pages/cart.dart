@@ -139,26 +139,42 @@ class _CartPageState extends State<CartPage> {
                           context: context,
                           builder: (BuildContext context) => const AlertDialog(
                                 title: Text(
-                                  "No Item In Cart.",
+                                  "Warning",
                                 ),
-                                content: Text("Not Enough"),
+                                content: Text("ไม่มีรายการสินค้าในตะกร้า"),
                               ));
                     } else {
                       if (userCredit >= totalPrice) {
                         await userService.updateUserCredit(
                             userCredit - totalPrice, userId);
-                        cartService.setOrder(username, userId);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const NavigationPage()));
+                        cartService.setOrder(username, userId, totalPrice);
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                const AlertDialog(
+                                  content: Text(
+                                    "การสั่งซื้อสำเร็จ",
+                                  ),
+                                ));
+
+                        Future.delayed(
+                          const Duration(seconds: 3),
+                          () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NavigationPage()));
+                          },
+                        );
                       } else {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) =>
                                 const AlertDialog(
                                   title: Text(
-                                    "Credit not enough",
+                                    "Warning.",
                                   ),
-                                  content: Text("Not Enough"),
+                                  content: Text("เครดิตไม่เพียงพอ"),
                                 ));
                       }
                     }

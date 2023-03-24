@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pak_admin/firebase_options.dart';
 import 'package:pak_admin/pages/navigation.dart';
+import 'package:pak_admin/theme/customtheme.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
@@ -14,10 +16,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Pak cafe',
+      debugShowCheckedModeBanner: false,
+      theme: CustomTheme.defaultTheme,
       home: const NavaigationPage(),
     );
   }

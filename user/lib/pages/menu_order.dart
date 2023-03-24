@@ -110,6 +110,8 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    double heightScreen = MediaQuery.of(context).size.height;
+    double widthScreen = MediaQuery.of(context).size.width;
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -125,7 +127,14 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //* Image
-              const Placeholder(),
+              SizedBox(
+                height: heightScreen * 0.3,
+                width: widthScreen,
+                child: Image.asset(
+                  'assets/images/pic.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
               //* Price
               Container(
                 margin:
@@ -259,13 +268,22 @@ class NumberOrder extends StatelessWidget {
             onPressed: () {
               onMinusTap();
             },
-            icon: const Text('-')),
-        Text('$number'),
+            icon: const Text(
+              '-',
+              style: TextStyle(fontSize: 20),
+            )),
+        Text(
+          '$number',
+          style: const TextStyle(fontSize: 20),
+        ),
         IconButton(
             onPressed: () {
               onPlusTap();
             },
-            icon: const Text('+'))
+            icon: const Text(
+              '+',
+              style: TextStyle(fontSize: 20),
+            ))
       ],
     );
   }

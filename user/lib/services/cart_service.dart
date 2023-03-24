@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class CartService {
   Map<String, dynamic> cartItem = {};
-  String userId = '72cdf7df-eb6c-4cb6-9216-a85a3d330205';
+  String userId = '';
 
   Future<Map<String, dynamic>> fetchCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,20 +62,23 @@ class CartService {
     prefs.remove('cart');
   }
 
-  void setOrder(String username, String userId) async {
+  void setOrder(String username, String userId, double totalPrice) async {
     var uuid = const Uuid();
     String cartListId = uuid.v4();
     DatabaseReference orderInfoRef =
         FirebaseDatabase.instance.ref("orderInfo/$cartListId");
-    await orderInfoRef.set({'username': username, "status": 0});
+    await orderInfoRef.set({
+      'username': username,
+      "status": 0,
+      "userId": userId,
+    });
 
-    DateTime _now = DateTime.now();
-    int number = 0;
+    int number = 2;
     DatabaseReference orderNumRef =
         FirebaseDatabase.instance.ref("order/$userId");
     await orderNumRef.child("orderNumber").once().then((value) async {
       if (value.snapshot.value == null) {
-        await orderNumRef.update({'orderNumber': 0});
+        await orderNumRef.update({'orderNumber': number});
       } else {
         number = value.snapshot.value as int;
       }
@@ -82,10 +86,15 @@ class CartService {
     await orderNumRef.update({'orderNumber': number + 1});
     DatabaseReference orderListRef =
         FirebaseDatabase.instance.ref("order/$userId/orderList/$number");
-    await orderListRef
-        .set({'orderId': cartListId, 'status': 0, "time": _now.toString()});
+    await orderListRef.set({
+      "orderId": cartListId,
+      "status": 0,
+      "time": DateFormat('d/M/y H:m').format(DateTime.now()),
+      "totalPrice": totalPrice
+    });
 
     setOrderInfo(cartListId);
+    removeCart();
   }
 
   void setOrderInfo(String cartListId) async {

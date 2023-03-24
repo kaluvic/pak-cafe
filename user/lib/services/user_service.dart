@@ -1,10 +1,14 @@
+/// ชนินทร์ รังสาคร 620510590
+/// UserService
+/// fetch user infomation form firebase real-time database
+/// and put into object UserList.
+
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:pak_user/entities/userlist_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// fetch user infomation form firebase real-time database and put into object UserList.
 class UserService {
   final dbRef = FirebaseDatabase.instance.ref();
 
@@ -53,7 +57,6 @@ class UserService {
   // set user information from database to cache.
   Future<void> setUserCache(String name, String userId, double credit) async {
     final user = await SharedPreferences.getInstance();
-
     await user.setString('userId', userId);
     await user.setString('name', name);
     await user.setDouble('credit', credit);

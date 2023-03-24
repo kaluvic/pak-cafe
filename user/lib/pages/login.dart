@@ -1,3 +1,8 @@
+/// ชนินทร์ รังสาคร 620510590
+/// LoginPage
+/// แสดงหน้า login และ เทียบข้อมูลกับฐานข้อมูลว่าถูกต้องหรือไม่
+/// เก็บ cache ลงเครื่อง
+
 import 'package:flutter/material.dart';
 import 'package:pak_user/entities/userlist_entity.dart';
 import 'package:pak_user/pages/navigation.dart';
@@ -40,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: 100,
               height: 100,
-              child: Image.asset('images/MyIcon.jpg'),
+              child: Image.asset('assets/images/MyIcon.jpg'),
             ),
             Form(
                 key: _formKey,

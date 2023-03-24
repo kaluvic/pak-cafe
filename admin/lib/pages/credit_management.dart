@@ -1,7 +1,12 @@
+/// ชนินทร์ รังสาคร 620510590
+/// CreditManagement
+/// แสดงหน้าจัดการเครดิตของผู้ใช้
+/// เพิ่มเครดิตตามจำนวนที่เติม
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pak_admin/entities/userlist_entity.dart';
 import 'package:pak_admin/services/user_service.dart';
+import 'package:pak_admin/theme/customtheme.dart';
 
 class CreditManagement extends StatefulWidget {
   const CreditManagement({super.key, required this.user});
@@ -28,14 +33,25 @@ class _CreditManagementState extends State<CreditManagement> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Username : ${widget.user.name}'),
-            Text('Email : ${widget.user.email}'),
-            const Text('จำนวนเงินที่ต้องการเติม'),
+            Text(
+              'Username : ${widget.user.name}',
+              style: CustomTextStyle.detail,
+            ),
+            Text(
+              'Email : ${widget.user.email}',
+              style: CustomTextStyle.detail,
+            ),
+            Text(
+              'จำนวนเงินที่ต้องการเติม',
+              style: CustomTextStyle.detail,
+            ),
             TextField(
                 controller: _controller,
                 onChanged: (value) {
                   if (value.isEmpty) {
                     credit = 0;
+                  } else {
+                    credit = double.parse(_controller.text);
                   }
                 },
                 keyboardType: TextInputType.number,
@@ -119,13 +135,21 @@ class _CreditManagementState extends State<CreditManagement> {
               ),
             ),
             Center(
-                child: ElevatedButton(
-                    onPressed: () {
-                      credit += widget.user.credit;
-                      userService.updateUser(widget.user, credit);
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('ยืนยัน')))
+                child: Container(
+              padding: const EdgeInsets.only(left: 17.0, right: 17.0),
+              width: (MediaQuery.of(context).size.width),
+              child: ElevatedButton(
+                  onPressed: () {
+                    credit += widget.user.credit;
+                    userService.updateUser(widget.user, credit);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'ยืนยัน',
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+                  )),
+            ))
           ],
         ),
       ),
