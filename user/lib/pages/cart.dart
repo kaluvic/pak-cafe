@@ -139,9 +139,9 @@ class _CartPageState extends State<CartPage> {
                           context: context,
                           builder: (BuildContext context) => const AlertDialog(
                                 title: Text(
-                                  "No Item In Cart.",
+                                  "No item in cart.",
                                 ),
-                                content: Text("Not Enough"),
+                                content: Text("Not Enough."),
                               ));
                     } else {
                       if (userCredit >= totalPrice) {
@@ -156,9 +156,9 @@ class _CartPageState extends State<CartPage> {
                             builder: (BuildContext context) =>
                                 const AlertDialog(
                                   title: Text(
-                                    "Credit not enough",
+                                    "Credit is not enough.",
                                   ),
-                                  content: Text("Not Enough"),
+                                  content: Text("Not Enough."),
                                 ));
                       }
                     }
