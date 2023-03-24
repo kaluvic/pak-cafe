@@ -17,7 +17,10 @@ class _CategoryAddState extends State<CategoryAdd> {
     return Container(
       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('ชื่อประเภท'),
+        const Text(
+          'ชื่อประเภท',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+        ),
         TextField(
           controller: _textEditingController,
         ),
@@ -46,7 +49,11 @@ class _CategoryAddState extends State<CategoryAdd> {
                                     ));
                               });
                             },
-                            child: const Text('ยืนยัน'))
+                            child: const Text(
+                              'ยืนยัน',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ))
                       ],
                     ),
                   );

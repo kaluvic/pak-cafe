@@ -46,12 +46,16 @@ class _MenuAddPageState extends State<MenuAddPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double heightScreen = MediaQuery.of(context).size.height;
     TextEditingController nameController = TextEditingController();
     TextEditingController priceController = TextEditingController();
     MenuService menuService = MenuService();
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEdit ? widget.menuInfo!.name : 'เมนู'),
+        title: Text(
+          isEdit ? widget.menuInfo!.name : 'เมนู',
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -66,7 +70,7 @@ class _MenuAddPageState extends State<MenuAddPage> {
                     color: Colors.black,
                   ),
                   width: width,
-                  height: 300,
+                  height: heightScreen * 0.3,
                 ),
                 const IconButton(
                     onPressed: null,
@@ -155,7 +159,11 @@ class _MenuAddPageState extends State<MenuAddPage> {
                             ),
                             ModalRoute.withName('/'));
                       },
-                      child: const Text('ยืนยัน')),
+                      child: const Text(
+                        'ยืนยัน',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
+                      )),
                 ),
               ),
             )
