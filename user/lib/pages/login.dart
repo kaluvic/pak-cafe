@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                                 if (v.email == email &&
                                     v.password == password) {
                                   await userService.setUserCache(
-                                      v.name, v.userId, v.credit.toDouble());
+                                      v.name, v.userId, v.credit);
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) =>
                                           const NavigationPage()));

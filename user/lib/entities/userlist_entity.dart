@@ -17,14 +17,14 @@ class UserList {
 
   String password;
   String name;
-  int credit;
+  double credit;
   String userId;
   String email;
 
   factory UserList.fromJson(Map<String, dynamic> json) => UserList(
         password: json["password"],
         name: json["name"],
-        credit: json["credit"],
+        credit: double.parse(json["credit"].toString()),
         userId: json["userId"],
         email: json["email"],
       );
