@@ -20,17 +20,10 @@ class CartService {
     Map<String, dynamic> cart = await fetchCart();
     List<Item> data = [];
     cart.forEach((key, value) {
-      print(value);
       Item item = itemFromJson(value.toString());
       data.add(item);
     });
     return data;
-  }
-
-  void _printCart() {
-    fetchCart().then((value) {
-      // print(value);
-    });
   }
 
   void addToCart(Item item) async {
@@ -54,7 +47,6 @@ class CartService {
   void _saveCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('cart', json.encode(cartItem));
-    _printCart();
   }
 
   void removeCart() async {
@@ -119,7 +111,6 @@ class CartService {
     final ref = FirebaseDatabase.instance.ref();
     await ref.child('orderInfo').once().then((event) {
       String json = jsonEncode(event.snapshot.value);
-      print(json);
     });
   }
 }
