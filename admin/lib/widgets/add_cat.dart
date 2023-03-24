@@ -52,7 +52,7 @@ class _CategoryAddState extends State<CategoryAdd> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const NavaigationPage(),
+                                          const NavigationPage(),
                                     ));
                               });
                             },

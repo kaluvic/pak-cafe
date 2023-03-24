@@ -29,6 +29,9 @@ class MenuAddPage extends StatefulWidget {
 }
 
 class _MenuAddPageState extends State<MenuAddPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  MenuService menuService = MenuService();
   bool _isRecommend = false;
   bool isEdit = false;
   double hot = -1;
@@ -52,9 +55,7 @@ class _MenuAddPageState extends State<MenuAddPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double heightScreen = MediaQuery.of(context).size.height;
-    TextEditingController nameController = TextEditingController();
-    TextEditingController priceController = TextEditingController();
-    MenuService menuService = MenuService();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -158,10 +159,11 @@ class _MenuAddPageState extends State<MenuAddPage> {
                           toppings: toppings,
                         );
                         Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => const NavaigationPage(),
-                            ),
-                            ModalRoute.withName('/'));
+                          MaterialPageRoute(
+                            builder: (context) => const NavigationPage(),
+                          ),
+                          (route) => false,
+                        );
                       },
                       child: const Text(
                         'ยืนยัน',

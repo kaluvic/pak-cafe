@@ -55,6 +55,7 @@ class _DrinkListState extends State<DrinkList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       itemCount: widget.menuIdList.length,
       itemBuilder: (context, index) {
         if (index == 0) {

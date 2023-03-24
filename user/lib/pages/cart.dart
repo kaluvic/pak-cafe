@@ -3,6 +3,7 @@
 ///   หน้าจอการจัดการตะกร้าสินค้า(ออเดอร์)
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:pak_user/entities/menuinfo_entity.dart';
 import 'package:pak_user/pages/menu_order.dart';
@@ -71,7 +72,8 @@ class _CartPageState extends State<CartPage> {
                                     Text(
                                         "${listItem[index].name}  (${listItem[index].status})"),
                                     Text('x${listItem[index].count}'),
-                                    Text('${listItem[index].price}')
+                                    Text(
+                                        '${NumberFormat.decimalPatternDigits().format(listItem[index].price)} บาท')
                                   ],
                                 ),
                                 subtitle: Column(
@@ -118,7 +120,8 @@ class _CartPageState extends State<CartPage> {
                                   height: 200,
                                   child: Align(
                                     alignment: Alignment.topRight,
-                                    child: Text('ราคารวม $totalPrice บาท',
+                                    child: Text(
+                                        'ราคารวม ${NumberFormat.decimalPatternDigits().format(totalPrice)} บาท',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 22)),

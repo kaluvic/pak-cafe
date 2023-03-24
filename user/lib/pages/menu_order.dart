@@ -3,6 +3,7 @@
 /// หน้าจอสำหรับสั่งซื้อเครื่องดื่ม
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:pak_user/entities/menuinfo_entity.dart';
 import 'package:pak_user/services/cart_service.dart';
@@ -145,7 +146,7 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
                     const EdgeInsets.only(top: 10.0, bottom: 10.0, right: 10.0),
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '${widget.menuInfo.price}',
+                  '${NumberFormat.decimalPatternDigits().format(widget.menuInfo.price)} บาท',
                   style: const TextStyle(
                       fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
@@ -228,7 +229,7 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
               //* Total
               Center(
                   child: Text(
-                'ราคารวม ${(basePrice + statusPrice + toppingsPrice) * _number} บาท',
+                'ราคารวม ${NumberFormat.decimalPatternDigits().format((basePrice + statusPrice + toppingsPrice) * _number)} บาท',
                 style: const TextStyle(fontSize: 20),
               )),
               //* Confirm button
@@ -328,7 +329,7 @@ class _ToppingCheckboxState extends State<ToppingCheckbox> {
           });
         },
       ),
-      trailing: Text('${widget.price}'),
+      trailing: Text(NumberFormat.decimalPatternDigits().format(widget.price)),
     );
   }
 }
@@ -358,7 +359,7 @@ class StatusRadiobox extends StatelessWidget {
                 onButtonChecked(value!);
               },
             ),
-            trailing: Text('$price'),
+            trailing: Text(NumberFormat.decimalPatternDigits().format(price)),
           )
         : Container();
   }
