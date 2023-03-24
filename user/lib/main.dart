@@ -12,13 +12,12 @@ void main() async {
   final userService = UserService();
   bool isLogin = await userService.isLogin();
 
-
-  runApp( MyApp(isLogin: isLogin));
+  runApp(MyApp(isLogin: isLogin));
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key,required this.isLogin});
-  bool isLogin ;
+  MyApp({super.key, required this.isLogin});
+  bool isLogin;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:pak_user/entities/userlist_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// fetch user infomation form firebase real-time database and put into object UserList.
 class UserService {
   final dbRef = FirebaseDatabase.instance.ref();
 
@@ -17,6 +18,7 @@ class UserService {
     );
   }
 
+  // get user infomation from UserList and storaged in cache.
   Future<Map<String, dynamic>> getUserInfo() async {
     final userInfo = await SharedPreferences.getInstance();
     Map<String, dynamic> user = {};
@@ -27,6 +29,7 @@ class UserService {
     return user;
   }
 
+  // update user credit that match the userId in both cache and database.
   Future<void> updateUserCredit(double credit, String userId) async {
     final user = await SharedPreferences.getInstance();
     Map<String, UserList> userList = await fetchUser();
@@ -38,6 +41,7 @@ class UserService {
     });
   }
 
+  // check if user is loggin before?
   Future<bool> isLogin() async {
     final user = await SharedPreferences.getInstance();
     if (user.getString('name') != null) {
@@ -46,6 +50,7 @@ class UserService {
     return false;
   }
 
+  // set user information from database to cache.
   Future<void> setUserCache(String name, String userId, double credit) async {
     final user = await SharedPreferences.getInstance();
 
@@ -54,6 +59,7 @@ class UserService {
     await user.setDouble('credit', credit);
   }
 
+  // clear user cache.
   Future<void> clearUserCache() async {
     final user = await SharedPreferences.getInstance();
 
