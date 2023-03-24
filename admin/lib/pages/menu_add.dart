@@ -1,3 +1,8 @@
+/// ธัชทร วงศ์ไชย 620510601
+/// MenuAddPage
+/// แสดงหน้าจอสำหรับเพิ่มและแก้ไขเมนู
+/// Feature เพิ่มรูปภาพ มีปัญหาในการเก็บไฟล์รูปภาพบน Firebase
+
 import 'package:flutter/material.dart';
 import 'package:pak_admin/entities/menuinfo_entity.dart';
 import 'package:pak_admin/pages/navigation.dart';
@@ -139,7 +144,6 @@ class _MenuAddPageState extends State<MenuAddPage> {
                   width: 300,
                   child: ElevatedButton(
                       onPressed: () {
-                        //TODO: Send menulist
                         Status status =
                             Status(frappe: frappe, hot: hot, ice: ice);
                         menuService.updateMenu(
