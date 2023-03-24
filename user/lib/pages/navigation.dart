@@ -63,9 +63,16 @@ class _NavigationPageState extends State<NavigationPage> {
                                   value: 'default',
                                   child: Text(
                                     username,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
                                   )),
                               const DropdownMenuItem(
-                                  value: 'logout', child: Text('Logout')),
+                                  value: 'logout',
+                                  child: Text(
+                                    'Logout',
+                                    style: TextStyle(fontSize: 16),
+                                  )),
                             ],
                             onChanged: dropdownCallback),
                       ),

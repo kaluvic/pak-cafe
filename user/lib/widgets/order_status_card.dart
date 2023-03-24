@@ -30,45 +30,48 @@ class _OrderStatusCardWidgetState extends State<OrderStatusCardWidget> {
         return Container();
     }
     return Container(
-      padding: const EdgeInsets.only(left: 10),
-      child: Text(statusMessage),
+      padding: const EdgeInsets.only(left: 2.0, top: 5.0),
+      child: Text(
+        statusMessage,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Center(
       child: Card(
         margin: const EdgeInsets.all(20),
         clipBehavior: Clip.hardEdge,
-        child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
-          child: SizedBox(
-            width: 300,
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "OrderID : ${widget.orderId.split('-').first}",
-                    style: const TextStyle(fontSize: 18),
+        child: SizedBox(
+          width: width,
+          child: Container(
+            margin: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "OrderID : ${widget.orderId.split('-').first}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                genStatus(),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "เวลาที่สั่ง : ${widget.time}",
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ],
                   ),
-                  genStatus(),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "เวลาที่สั่ง : ${widget.time}",
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

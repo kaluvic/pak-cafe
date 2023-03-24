@@ -38,7 +38,10 @@ class _HomePageState extends State<HomePage> {
   List<Tab> generateTab() {
     return List<Tab>.generate(_menuList.category.length, (index) {
       return Tab(
-        child: Text(_menuList.category[index].name),
+        child: Text(
+          _menuList.category[index].name,
+          style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+        ),
       );
     }).toList();
   }
@@ -112,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                       child: const Text(
                         'Menu',
                         style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                            fontSize: 24.0, fontWeight: FontWeight.bold),
                       )),
                   // * Tab Category
                   DefaultTabController(
