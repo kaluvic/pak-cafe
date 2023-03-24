@@ -1,4 +1,5 @@
 /// ชนินทร์ รังสาคร 620510590
+/// RegisterPage
 /// แสดงหน้าสมัครสมาชิก
 /// validate ข้อมูลก่อนส่งขึ้นฐานข้อมูล
 import 'package:flutter/material.dart';
