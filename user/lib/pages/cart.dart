@@ -150,16 +150,22 @@ class _CartPageState extends State<CartPage> {
                         cartService.setOrder(username, userId, totalPrice);
                         showDialog(
                             context: context,
-                            builder: (BuildContext context) => const AlertDialog(
+                            builder: (BuildContext context) =>
+                                const AlertDialog(
                                   content: Text(
-                                    "Order successful.",
+                                    "การสั่งซื้อสำเร็จ",
                                   ),
                                 ));
-                          
-                        Future.delayed(Duration(seconds: 3),() {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const NavigationPage()));
-                        },);
+
+                        Future.delayed(
+                          const Duration(seconds: 3),
+                          () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NavigationPage()));
+                          },
+                        );
                       } else {
                         showDialog(
                             context: context,

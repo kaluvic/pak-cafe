@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 import 'package:pak_user/entities/cart_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -72,13 +73,12 @@ class CartService {
       "userId": userId,
     });
 
-    DateTime now = DateTime.now();
-    int number = 0;
+    int number = 2;
     DatabaseReference orderNumRef =
         FirebaseDatabase.instance.ref("order/$userId");
     await orderNumRef.child("orderNumber").once().then((value) async {
       if (value.snapshot.value == null) {
-        await orderNumRef.update({'orderNumber': 0});
+        await orderNumRef.update({'orderNumber': number});
       } else {
         number = value.snapshot.value as int;
       }
@@ -89,7 +89,7 @@ class CartService {
     await orderListRef.set({
       "orderId": cartListId,
       "status": 0,
-      "time": now.toString(),
+      "time": DateFormat('d/M/y H:m').format(DateTime.now()),
       "totalPrice": totalPrice
     });
 
