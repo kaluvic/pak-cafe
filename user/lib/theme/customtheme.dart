@@ -1,5 +1,9 @@
+/// ธัชทร วงศ์ไชย 620510601
+
 import 'package:flutter/material.dart';
 
+/// CustomTheme
+/// สำหรับกำหนด Theme ของแอพ
 class CustomTheme {
   CustomTheme._();
 
@@ -11,6 +15,8 @@ class CustomTheme {
       textTheme: const TextTheme(button: TextStyle(fontSize: 18)));
 }
 
+/// CoffeeColor
+/// กำหนดสีของแอพ
 class CoffeeColor {
   static Color cream = const Color(0xFFD5CEA3);
   static Color milk = const Color(0xFFE5E5CB);

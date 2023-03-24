@@ -1,3 +1,7 @@
+/// ธัชทร วงศ์ไชย 620510601
+/// MenuService
+/// ใช้สำหรับการทำงานภายในหน้า Menu และ MenuAdd
+
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -102,7 +106,6 @@ class MenuService {
           .child('menuInfo/$genId')
           .set(menu.toJson())
           .then((value) => print('Update successfully'));
-      //TODO: Add new menuId to category
       var menuRef = ref.child('menu/category/$catIndex/menuId');
       menuRef.once().then((event) {
         List<dynamic> temp = event.snapshot.value as List;
