@@ -46,7 +46,7 @@ class _OrderStatusCardWidgetState extends State<OrderStatusCardWidget> {
           child: SizedBox(
             width: 300,
             child: Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,

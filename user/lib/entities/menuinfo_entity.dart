@@ -25,7 +25,7 @@ class MenuInfo {
 
   factory MenuInfo.fromJson(Map<String, dynamic> json) => MenuInfo(
         name: json["name"],
-        price: (json["price"] as int).toDouble(),
+        price: double.parse(json["price"].toString()),
         status: Status.fromJson(json["status"]),
         toppings: json["toppings"] == null
             ? []
@@ -55,9 +55,9 @@ class Status {
   double ice;
 
   factory Status.fromJson(Map<String, dynamic> json) => Status(
-        frappe: (json["frappe"] as int).toDouble(),
-        hot: (json["hot"] as int).toDouble(),
-        ice: (json["ice"] as int).toDouble(),
+        frappe: double.parse(json["frappe"].toString()),
+        hot: double.parse(json["hot"].toString()),
+        ice: double.parse(json["ice"].toString()),
       );
 
   Map<String, dynamic> toJson() => {
@@ -78,7 +78,7 @@ class Topping {
 
   factory Topping.fromJson(Map<String, dynamic> json) => Topping(
         name: json["name"],
-        price: (json["price"] as int).toDouble(),
+        price: double.parse(json["price"].toString()),
       );
 
   Map<String, dynamic> toJson() => {

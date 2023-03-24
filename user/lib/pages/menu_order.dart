@@ -111,6 +111,7 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
   @override
   Widget build(BuildContext context) {
     double heightScreen = MediaQuery.of(context).size.height;
+    double widthScreen = MediaQuery.of(context).size.width;
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -126,8 +127,13 @@ class _MenuOrderPageState extends State<MenuOrderPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //* Image
-              Placeholder(
-                fallbackHeight: heightScreen * 0.3,
+              SizedBox(
+                height: heightScreen * 0.3,
+                width: widthScreen,
+                child: Image.asset(
+                  'assets/images/pic.png',
+                  fit: BoxFit.cover,
+                ),
               ),
               //* Price
               Container(

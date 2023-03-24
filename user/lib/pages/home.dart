@@ -91,18 +91,17 @@ class _HomePageState extends State<HomePage> {
                   CarouselSlider(
                     options: CarouselOptions(
                         autoPlay: true, height: (0.3 * heightScreen)),
-                    items: [1, 2, 3, 4, 5].map((e) {
+                    items: ['pic', 'pic2', 'pic3', 'pic4', 'pic5'].map((e) {
                       return Builder(
                         builder: (context) {
                           return Container(
-                            width: widthScreen,
-                            decoration:
-                                const BoxDecoration(color: Colors.amber),
-                            child: Text(
-                              '$e',
-                              style: const TextStyle(fontSize: 50),
-                            ),
-                          );
+                              width: widthScreen,
+                              decoration:
+                                  const BoxDecoration(color: Colors.amber),
+                              child: Image.asset(
+                                'assets/images/$e.png',
+                                fit: BoxFit.cover,
+                              ));
                         },
                       );
                     }).toList(),
