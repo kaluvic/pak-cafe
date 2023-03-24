@@ -1,4 +1,6 @@
 ///   ณัฐชัย กัณฑเจตน์ 620510595
+///   CartPage
+///   หน้าจอการจัดการตะกร้าสินค้า(ออเดอร์)
 
 import 'package:flutter/material.dart';
 import 'package:pak_user/entities/cart_entity.dart';
@@ -9,7 +11,6 @@ import 'package:pak_user/services/cart_service.dart';
 import 'package:pak_user/services/menu_service.dart';
 import 'package:pak_user/services/user_service.dart';
 
-///   Page การจัดการตะกร้าสินค้า aka ออเดอร์
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
