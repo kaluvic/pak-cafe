@@ -15,7 +15,7 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   final userService = UserService();
-  double cash = 0;
+  double credit = 0;
   String username = '';
   String userId = '';
   int selectedIndex = 0;
@@ -40,6 +40,7 @@ class _NavigationPageState extends State<NavigationPage> {
             user = snapshot.data!;
             username = user['name'];
             userId = user['userId'];
+            credit = user['credit'];
             return Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
@@ -70,7 +71,7 @@ class _NavigationPageState extends State<NavigationPage> {
                       ),
                     ),
                     Text(
-                      NumberFormat.currency(symbol: '฿').format(cash),
+                      NumberFormat.currency(symbol: '฿').format(credit),
                       style: TextStyle(color: CoffeeColor.milk),
                     )
                   ],
