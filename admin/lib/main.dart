@@ -4,6 +4,7 @@ import 'package:pak_admin/firebase_options.dart';
 import 'package:pak_admin/pages/navigation.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }

@@ -93,7 +93,8 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
 
   AlertDialog genAlertBox() {
     return AlertDialog(
-      title: Row(
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -187,8 +188,9 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
                 for (String i in (query as Map).keys) {
                   final stackedRef = FirebaseDatabase.instance
                       .ref('order/${widget.userId}/orderList/$i');
-                  stackedCredit += (await stackedRef.child('totalPrice').get())
-                      .value as double;
+                  stackedCredit += ((await stackedRef.child('totalPrice').get())
+                          .value as int)
+                      .toDouble();
                   await stackedRef.remove();
                 }
                 await FirebaseDatabase.instance
@@ -197,7 +199,8 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
                 final creditRef =
                     FirebaseDatabase.instance.ref('user/${widget.userId}');
                 final credit =
-                    (await creditRef.child('credit').get()).value as double;
+                    ((await creditRef.child('credit').get()).value as int)
+                        .toDouble();
                 await creditRef.update({'credit': credit + stackedCredit});
               },
               child: const Text("ยกเลิก"),

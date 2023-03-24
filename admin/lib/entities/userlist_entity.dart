@@ -21,7 +21,7 @@ class UserList {
   String userId;
 
   factory UserList.fromJson(Map<String, dynamic> json) => UserList(
-      credit: json["credit"],
+      credit: double.parse(json["credit"].toString()),
       email: json["email"],
       name: json["name"],
       password: json["password"],
