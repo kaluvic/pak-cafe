@@ -3,6 +3,8 @@ import 'package:pak_admin/entities/menu_entity.dart';
 import 'package:pak_admin/entities/menuinfo_entity.dart';
 import 'package:pak_admin/services/menu_service.dart';
 
+import '../theme/customtheme.dart';
+
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
 
@@ -22,7 +24,11 @@ class _MenuPageState extends State<MenuPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("เมนู"),
+        title: Text(
+          "เมนู",
+          style:
+              TextStyle(fontWeight: FontWeight.w600, color: CoffeeColor.milk),
+        ),
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -42,8 +48,11 @@ class _MenuPageState extends State<MenuPage> {
                         children: [
                           Container(
                             child: TabBar(
-                                labelColor: Colors.blue,
-                                unselectedLabelColor: Colors.black,
+                                labelColor: CoffeeColor.cream,
+                                unselectedLabelColor: CoffeeColor.coffee,
+                                indicatorColor: CoffeeColor.cream,
+                                labelStyle: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
                                 tabs: tabviews.first),
                           ),
                           //* BODY

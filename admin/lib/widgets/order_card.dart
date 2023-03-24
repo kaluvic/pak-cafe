@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pak_admin/entities/cartinfo_entity.dart';
+import 'package:pak_admin/theme/customtheme.dart';
 
 class OrderCardWidget extends StatefulWidget {
   const OrderCardWidget(
@@ -23,9 +24,11 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
   List<CartInfo> cartList = [];
 
   void createList(Map<String, CartInfo> cartinfo) {
+    List<CartInfo> tempCart = [];
     cartinfo.forEach((key, value) {
-      cartList.add(value);
+      tempCart.add(value);
     });
+    cartList = tempCart;
   }
 
   Color statusColor() {
@@ -56,7 +59,10 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
         children: [
           genMenuCard(cartList[0]),
           genMenuCard(cartList[1]),
-          Text("... มีอีก ${range - 2} รายการ"),
+          Text(
+            "... มีอีก ${range - 2} รายการ",
+            style: CustomTextStyle.detail,
+          ),
         ],
       );
     }
@@ -82,7 +88,8 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${cart.menuName} (${cart.status})'),
+            Text('${cart.menuName} (${cart.status})',
+                style: CustomTextStyle.detail),
             Text('ท็อปปิ้ง : $topping'),
             Text('Note : $notes')
           ],
@@ -93,7 +100,8 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
 
   AlertDialog genAlertBox() {
     return AlertDialog(
-      title: Row(
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -133,11 +141,11 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
               );
             },
           )),
-      actions: <Widget>[genButton()],
+      actions: <Widget>[genButton(isAlert: true)],
     );
   }
 
-  Widget genButton() {
+  Widget genButton({bool isAlert = false}) {
     switch (widget.status) {
       case 0:
         return Container(
@@ -166,9 +174,15 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
 
                 await FirebaseDatabase.instance
                     .ref('orderInfo/${widget.orderId}')
-                    .update({"status": widget.status + 1});
+                    .update({"status": widget.status + 1}).then(
+                        (value) => {if (isAlert) Navigator.pop(context)});
               },
-              child: const Text("ยืนยัน"),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 23, 136, 202)),
+              child: const Text(
+                "ยืนยัน",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -187,8 +201,9 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
                 for (String i in (query as Map).keys) {
                   final stackedRef = FirebaseDatabase.instance
                       .ref('order/${widget.userId}/orderList/$i');
-                  stackedCredit += (await stackedRef.child('totalPrice').get())
-                      .value as double;
+                  stackedCredit += ((await stackedRef.child('totalPrice').get())
+                          .value as int)
+                      .toDouble();
                   await stackedRef.remove();
                 }
                 await FirebaseDatabase.instance
@@ -197,10 +212,21 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
                 final creditRef =
                     FirebaseDatabase.instance.ref('user/${widget.userId}');
                 final credit =
-                    (await creditRef.child('credit').get()).value as double;
-                await creditRef.update({'credit': credit + stackedCredit});
+                    ((await creditRef.child('credit').get()).value as int)
+                        .toDouble();
+                await creditRef
+                    .update({'credit': credit + stackedCredit}).then((value) {
+                  if (isAlert) {
+                    Navigator.pop(context);
+                  }
+                });
               },
-              child: const Text("ยกเลิก"),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 190, 51, 42)),
+              child: const Text(
+                "ยกเลิก",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
             ),
           ]),
         );
@@ -232,9 +258,20 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
 
                       await FirebaseDatabase.instance
                           .ref('orderInfo/${widget.orderId}')
-                          .update({"status": widget.status + 1});
+                          .update({"status": widget.status + 1}).then((value) {
+                        if (isAlert) {
+                          Navigator.pop(context);
+                        }
+                      });
                     },
-                    child: const Text("ยืนยัน"),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 23, 136, 202)),
+                    child: const Text(
+                      "ยืนยัน",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ]));
       case 2:
@@ -262,9 +299,19 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
                 }
                 await FirebaseDatabase.instance
                     .ref('orderInfo/${widget.orderId}')
-                    .remove();
+                    .remove()
+                    .then((value) {
+                  if (isAlert) {
+                    Navigator.pop(context);
+                  }
+                });
               },
-              child: const Text("เสร็จสิ้น"),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 23, 136, 202)),
+              child: const Text(
+                "เสร็จสื้น",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
             ),
           ]),
         );
@@ -290,7 +337,7 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
     }
     return Container(
       padding: const EdgeInsets.only(left: 10),
-      child: Text(statusMessage),
+      child: Text(statusMessage, style: CustomTextStyle.detail),
     );
   }
 
@@ -320,12 +367,10 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "User : ${widget.username}",
-                        ),
-                        Text(
-                          "Order ID : ${widget.orderId.split('-').first}",
-                        ),
+                        Text("User : ${widget.username}",
+                            style: CustomTextStyle.detail),
+                        Text("Order ID : ${widget.orderId.split('-').first}",
+                            style: CustomTextStyle.detail),
                       ],
                     ),
                   ),
