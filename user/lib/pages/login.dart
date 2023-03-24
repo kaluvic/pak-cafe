@@ -1,3 +1,8 @@
+/// ชนินทร์ รังสาคร 620510590
+/// LoginPage
+/// แสดงหน้า login และ เทียบข้อมูลกับฐานข้อมูลว่าถูกต้องหรือไม่
+/// เก็บ cache ลงเครื่อง
+
 import 'package:flutter/material.dart';
 import 'package:pak_user/entities/userlist_entity.dart';
 import 'package:pak_user/pages/navigation.dart';

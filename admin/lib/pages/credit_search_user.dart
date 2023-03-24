@@ -1,3 +1,7 @@
+/// ชนินทร์ รังสาคร 620510590
+/// CredirSearchUserPage
+/// แสดงหน้าค้นหาผู้ใช้งานที่ต้องการเติม Credit
+/// เลือกผู้ใช้งานเพื่อไปต่อในหน้า Credit Management
 import 'package:flutter/material.dart';
 import 'package:pak_admin/entities/userlist_entity.dart';
 import 'package:pak_admin/pages/credit_management.dart';
