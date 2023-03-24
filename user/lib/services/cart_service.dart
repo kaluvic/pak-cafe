@@ -94,6 +94,7 @@ class CartService {
     });
 
     setOrderInfo(cartListId);
+    removeCart();
   }
 
   void setOrderInfo(String cartListId) async {
